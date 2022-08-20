@@ -16,6 +16,7 @@ import { Divider } from '@mui/material';
 
 const theme = createTheme();
 
+
 export default function CreateCloudWords() {
   const data = [
     { value: 'Повтор', count: 1 },

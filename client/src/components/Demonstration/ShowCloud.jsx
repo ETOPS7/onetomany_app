@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Button, Container, Typography,
 } from '@mui/material';
@@ -5,6 +6,7 @@ import { TagCloud } from 'react-tagcloud';
 import PersonIcon from '@mui/icons-material/Person';
 import './ShowCloud.module.css';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
 
 export default function ShowCloud() {
   const data = [
@@ -25,6 +27,7 @@ export default function ShowCloud() {
   ];
 
   return (
+
     <Container id="container">
       <Container id="container1">
         <Button id="btn" variant="outlined">

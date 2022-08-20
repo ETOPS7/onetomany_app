@@ -7,7 +7,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import './ShowCloud.module.css';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
-
 export default function ShowCloud() {
   const data = [
     { value: 'Повтор', count: 1 },

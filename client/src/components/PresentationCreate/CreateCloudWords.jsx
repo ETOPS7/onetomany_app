@@ -16,7 +16,6 @@ import { Divider } from '@mui/material';
 
 const theme = createTheme();
 
-
 export default function CreateCloudWords() {
   const data = [
     { value: 'Повтор', count: 1 },
@@ -61,9 +60,7 @@ export default function CreateCloudWords() {
           </Typography>
           <Divider />
 
-          <Typography id="quest">
-            С чем у вас ассоциируется Эльбрус?
-          </Typography>
+          <Typography id="quest">С чем у вас ассоциируется Эльбрус?</Typography>
 
           <TagCloud
             minSize={15}
@@ -76,13 +73,14 @@ export default function CreateCloudWords() {
             sx={{ mr: 3 }}
           />
           <Container id="container3">
-            <Typography id="bottomText" variant="h2">Пользователи онлайн:</Typography>
+            <Typography id="bottomText" variant="h2">
+              Пользователи онлайн:
+            </Typography>
             <Typography id="bottomText">
               <PersonIcon id="icon" fontSize="large" />
               12
             </Typography>
           </Container>
-
         </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
@@ -126,9 +124,7 @@ export default function CreateCloudWords() {
                 id="btn2"
                 startIcon={<PlayCircleOutlineIcon fontSize="large" />}
               >
-                <Typography id="begin">
-                  Начать презентацию
-                </Typography>
+                <Typography id="begin">Начать презентацию</Typography>
               </Button>
             </Box>
           </Box>

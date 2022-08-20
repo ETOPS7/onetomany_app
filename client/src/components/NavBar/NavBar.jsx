@@ -43,16 +43,18 @@ function NavBar() {
   return (
     <AppBar position="sticky" id="color">
       <StyledToolbar>
-        <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'block' } }}>
-          ONETOMANY
-        </Typography>
         <Box>
           <Button
-            sx={{ color: 'white' }}
-            onClick={() => navigate('/presents')}
+            href="/"
+            variant="h6"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
           >
+            ONETOMANY
+          </Button>
+        </Box>
+        <Box>
+          <Button sx={{ color: 'white' }} onClick={() => navigate('/presents')}>
             Презентации
-
           </Button>
         </Box>
         <Box>
@@ -61,7 +63,6 @@ function NavBar() {
             onClick={() => navigate('/templates')}
           >
             Шаблоны
-
           </Button>
         </Box>
         <Box>
@@ -70,34 +71,21 @@ function NavBar() {
             onClick={() => navigate('/template/:id')}
           >
             Облако слов
-
           </Button>
         </Box>
         <Box>
-          <Button
-            sx={{ color: 'white' }}
-            onClick={() => navigate('/template')}
-          >
+          <Button sx={{ color: 'white' }} onClick={() => navigate('/template')}>
             Создать презентацию
-
           </Button>
         </Box>
         <Box>
-          <Button
-            sx={{ color: 'white' }}
-            onClick={() => navigate('/signin')}
-          >
+          <Button sx={{ color: 'white' }} onClick={() => navigate('/signin')}>
             Авторизоваться
-
           </Button>
         </Box>
         <Box>
-          <Button
-            sx={{ color: 'white' }}
-            onClick={() => navigate('/signup')}
-          >
+          <Button sx={{ color: 'white' }} onClick={() => navigate('/signup')}>
             Зарегистрироваться
-
           </Button>
         </Box>
         <Pets sx={{ display: { xs: 'block', sm: 'none' } }} />

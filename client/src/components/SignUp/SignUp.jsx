@@ -12,7 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { userSignUp } from '../../Redux/actions/userActions';
 
 function Copyright(props) {
@@ -31,17 +32,26 @@ const theme = createTheme();
 
 export default function SignUp() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  React.useEffect(() => {
+    if (user.id) {
+      console.log('-------->');
+      navigate('/presents');
+    }
+  }, [user]);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log('sign up data.length---->', data.lenght);
-    if (data.length === 4) {
-      dispatch(userSignUp({
-        name: data.get('firstName'),
-        lastname: data.get('lastName'),
-        email: data.get('email'),
-        password: data.get('password'),
-      }));
+    const newUser = {
+      name: data.get('firstName') || '',
+      lastname: data.get('lastName') || '',
+      email: data.get('email') || '',
+      password: data.get('password') || '',
+    };
+    console.log('sign up data.length---->');
+    if (newUser.name && newUser.lastname && newUser.email && newUser.password) {
+      dispatch(userSignUp(newUser));
     }
   };
 

@@ -16,6 +16,8 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useDispatch, useSelector } from 'react-redux';
+import { allPresent } from '../../Redux/actions/presentsActions';
 
 function generate(element) {
   return [0, 1, 2].map((value) => React.cloneElement(element, {
@@ -30,7 +32,12 @@ const Demo = styled('div')(({ theme }) => ({
 export default function AllMyPresentation() {
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
-
+  const dispatch = useDispatch();
+  // const user = useSelector((state) => state.user);
+  const presents = useSelector((state) => state.presents);
+  React.useEffect(() => {
+    dispatch(allPresent());
+  }, []);
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <FormGroup row>

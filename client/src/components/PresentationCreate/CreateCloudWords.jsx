@@ -60,7 +60,18 @@ export default function CreateCloudWords() {
           </Typography>
           <Divider />
 
-          <Typography id="quest">С чем у вас ассоциируется Эльбрус?</Typography>
+          <Typography
+            id="quest"
+            sx={{
+              textAlign: 'center',
+              fontSize: '50px',
+              textDecoration: 'underline solid #80d7ff9a',
+              mb: 10
+            }}
+          >
+            С чем у вас ассоциируется Эльбрус?
+
+          </Typography>
 
           <TagCloud
             minSize={15}
@@ -70,14 +81,25 @@ export default function CreateCloudWords() {
             colorOptions={{
               luminosity: 'light',
             }}
-            sx={{ mr: 3 }}
+            style={{
+              textAlign: 'center',
+              mr: 3
+            }}
           />
           <Container id="container3">
-            <Typography id="bottomText" variant="h2">
+            <Typography
+              id="bottomText"
+              variant="h6"
+              sx={{
+                fontWeight: 300,
+                textAlign: 'center',
+                mt: 10
+              }}
+            >
               Пользователи онлайн:
             </Typography>
-            <Typography id="bottomText">
-              <PersonIcon id="icon" fontSize="large" />
+            <Typography id="bottomText" sx={{ color: 'black', textAlign: 'center' }}>
+              <PersonIcon id="icon" fontSize="large" sx={{ paddingTop: '5px' }} viewBox="0 -7.5 24 27" />
               12
             </Typography>
           </Container>

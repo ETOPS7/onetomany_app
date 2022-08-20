@@ -36,7 +36,10 @@ router.route('/signup').post(async (req, res) => {
     const pass = await bcrypt.hash(password, 10);
     try {
       const newUser = await User.create({
-        name, lastname, email, password: pass,
+        name,
+        lastname,
+        email,
+        password: pass,
       });
       req.session.user = { name: newUser.name, id: newUser.id };
       return res.json({ name: newUser.name, id: newUser.id });
@@ -49,6 +52,7 @@ router.route('/signup').post(async (req, res) => {
 });
 
 router.route('/check').post((req, res) => {
+  console.log('req.session--->', req.session);
   if (req.session?.user) {
     return res.json(req.session.user);
   }

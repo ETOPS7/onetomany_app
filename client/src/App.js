@@ -1,8 +1,5 @@
 import './styles/App.css';
-import {
-  Routes,
-  Route,
-} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SignUp from './components/SignUp/SignUp';
@@ -16,6 +13,7 @@ import { socketInit } from './Redux/actions/wsActions';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import { userCheck } from './Redux/actions/userActions';
 import FromAnswerCloud from './components/FormAnswer/FromAnswerCloud';
+import ModalQRcode from './components/ModalQR/ModalQRcode';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +41,7 @@ function App() {
         <Route path="/template/:id" element={<ShowCloud />} />
         <Route path="/template" element={<CreateCloudWords />} />
         <Route path="/pincode" element={<FromAnswerCloud />} />
+        <Route path="/qr" element={<ModalQRcode />} />
       </Routes>
     </div>
   );

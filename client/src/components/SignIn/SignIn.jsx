@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { signInUser } from '../../Redux/actions/userActions';
 
 function Copyright(props) {
   return (
@@ -28,13 +31,16 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    console.log('SignIn Form -->', data);
+    dispatch(signInUser({
       email: data.get('email'),
       password: data.get('password'),
-    });
+    }));
   };
 
   return (
@@ -85,6 +91,9 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              // onClick={() => {
+              //   navigate('/presents');
+              // }}
             >
               Sign In
             </Button>

@@ -4,7 +4,7 @@ import {
   Route,
 } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SignUp from './components/SignUp/SignUp';
 import NavBar from './components/NavBar/NavBar';
 import AllMyPresentation from './components/Presentations/AllMyPresentations';
@@ -14,11 +14,20 @@ import AllTemplates from './components/Templates/AllTemplates';
 import CreateCloudWords from './components/PresentationCreate/CreateCloudWords';
 import { socketInit } from './Redux/actions/wsActions';
 import WelcomePage from './components/WelcomePage/WelcomePage';
+import { userCheck } from './Redux/actions/userActions';
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  console.log('App.jsx -- user --->', user);
   useEffect(() => {
-    dispatch(socketInit());
+    if (user.id) {
+      dispatch(socketInit());
+    }
+  }, [user]);
+
+  useEffect(() => {
+    dispatch(userCheck());
   }, []);
 
   return (

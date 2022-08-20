@@ -25,7 +25,7 @@ app.use(
   cors({
     credentials: true,
     origin: true,
-  })
+  }),
 );
 
 const sessionParser = session({

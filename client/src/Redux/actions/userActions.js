@@ -1,19 +1,21 @@
 import axios from 'axios';
 import { ADD_USER } from '../types';
 
+const port = process.env.REACT_APP_SERVER_PATH || 'http://localhost:3001';
+
 export const userAdd = (value) => ({
   type: ADD_USER,
   payload: value,
 });
 
 export const userSignUp = (input) => (dispatch) => {
-  axios.post('/user/signup', input)
+  axios.post(`${port}/api/user/signup`, input)
     .then((res) => dispatch(userAdd(res.data)))
     .catch((err) => console.log('err'));
 };
 
 export const userCheck = () => (dispatch) => {
-  axios.post('/user/check')
+  axios.post(`${port}/api/user/check`)
     .then((res) => {
       dispatch(userAdd(res.data));
     })
@@ -23,13 +25,16 @@ export const userCheck = () => (dispatch) => {
 };
 
 export const signInUser = (input) => (dispatch) => {
-  axios.post('/user/signin', input)
-    .then((res) => dispatch(userAdd(res.data)))
+  axios.post(`${port}/api/user/signin`, input)
+    .then((res) => {
+      console.log('signInUser', res.data);
+      dispatch(userAdd(res.data));
+    })
     .catch((err) => console.log('err'));
 };
 
 export const logoutUser = () => (dispatch) => {
-  axios('/user/logout')
+  axios(`${port}/api/user/logout`)
     .then((res) => dispatch(userAdd({})))
     .catch((err) => console.log('err'));
 };

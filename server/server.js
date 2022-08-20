@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
 
 const http = require('http');
 const morgan = require('morgan');
@@ -15,6 +16,7 @@ const app = express();
 app.locals.ws = new Map();
 
 const userRouter = require('./routes/userRouter');
+const presentRouter = require('./routes/presentRouter');
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -23,7 +25,7 @@ app.use(
   cors({
     credentials: true,
     origin: true,
-  }),
+  })
 );
 
 const sessionParser = session({
@@ -31,7 +33,7 @@ const sessionParser = session({
   store: new FileStore({}),
   secret: process.env.SECRET || 'thisisnotsecure',
   // TODO true для не авторизованых
-  saveUninitialized: false,
+  saveUninitialized: true,
   resave: false,
   cookie: {
     expires: 24 * 60 * 60e3,
@@ -43,6 +45,7 @@ app.use(sessionParser);
 app.use(checkSession);
 
 app.use('/api/user', userRouter);
+app.use('/api/admin', presentRouter);
 
 const server = http.createServer(app);
 
@@ -50,11 +53,10 @@ server.on('upgrade', (request, socket, head) => {
   console.log('Parsing session from request...', app.locals.ws);
 
   sessionParser(request, {}, () => {
-    if (!request.session.user) {
-      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-      socket.destroy();
-      return;
-    }
+    // app.locals.ws.set(request.session.user ? request.session.user.id : uuidv4(), {
+    //   admin: !!request.session.user,
+    // });
+    console.log('SESSION', request.session.id);
 
     console.log('Session is parsed!');
 

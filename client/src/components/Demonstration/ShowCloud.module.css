@@ -1,0 +1,70 @@
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #container1 {
+    margin-top: 20px;
+  }
+  
+  #container2 {
+    margin-top: 150px;
+    text-align: center;
+  }
+  
+  #container3{
+    text-align: bottom;
+    margin-top: 100px;
+  }
+  
+  #btn {
+    margin-bottom: 15px;
+    height: 50px;
+    width: 93px;
+  }
+  
+  #btn:hover {
+    background-color: #42a5f4;
+    color: white;
+  }
+  
+  #bottomText {
+    font-size: 22px;
+    text-align: center;
+  }
+  
+  #url {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 40px;
+  }
+  
+  #textMain {
+    text-align: center;
+    font-size: 50px;
+    text-decoration: underline solid #80d7ff9a;
+  }
+  
+  #card {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  #text {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  
+  #icon {
+    text-align: center;
+    color: #42a5f4;
+  }
+  
+  .simple-cloud {
+    text-align: center;
+  }
+  

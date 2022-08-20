@@ -16,5 +16,6 @@ module.exports = {
     'global-require': 0,
     'no-unused-vars': 0,
     'linebreak-style': 0,
+    camelcase: 0,
   },
 };

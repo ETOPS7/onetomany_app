@@ -1,5 +1,4 @@
 import './styles/App.css';
-import React from 'react';
 import {
   Routes,
   Route,
@@ -11,8 +10,17 @@ import SignIn from './components/SignIn/SignIn';
 import ShowCloud from './components/Demonstration/ShowCloud';
 import AllTemplates from './components/Templates/AllTemplates';
 import CreateCloudWords from './components/PresentationCreate/CreateCloudWords';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { socketInit } from './Redux/actions/wsActions';
+
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(socketInit());
+  }, []);
+
   return (
     <div>
       <NavBar />

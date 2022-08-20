@@ -1,7 +1,8 @@
-import React from 'react';
+/* eslint-disable max-len */
 import {
-  Button, Container, Typography,
+  Button, Card, CardContent, Container, Typography,
 } from '@mui/material';
+import { Box } from '@mui/system';
 import { TagCloud } from 'react-tagcloud';
 import PersonIcon from '@mui/icons-material/Person';
 import './ShowCloud.module.css';
@@ -26,10 +27,17 @@ export default function ShowCloud() {
   ];
 
   return (
-
     <Container id="container">
       <Container id="container1">
-        <Button id="btn" variant="outlined">
+        <Button
+          id="btn"
+          variant="outlined"
+          sx={{
+            mt: 10,
+            height: '50px',
+            width: '93px'
+          }}
+        >
           Выход
           <ExitToAppIcon />
         </Button>
@@ -44,11 +52,20 @@ export default function ShowCloud() {
             451113
           </strong>
         </Typography>
-        <Typography id="textMain" variant="h2">
+        <Typography
+          id="textMain"
+          variant="h2"
+          sx={{
+            textAlign: 'center',
+            fontSize: '50px',
+            textDecoration: 'underline solid #80d7ff9a',
+            mb: 10
+          }}
+        >
           С чем у вас ассоциируется Эльбрус?
         </Typography>
       </Container>
-      <Container id="container2">
+      <Box id="container2" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <TagCloud
           minSize={19}
           maxSize={70}
@@ -57,12 +74,24 @@ export default function ShowCloud() {
           colorOptions={{
             luminosity: 'dark',
           }}
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         />
-      </Container>
+      </Box>
       <Container id="container3">
-        <Typography id="bottomText" variant="h2">Пользователи онлайн:</Typography>
-        <Typography id="text">
-          <PersonIcon id="icon" fontSize="large" />
+        <Typography
+          id="bottomText"
+          variant="h6"
+          sx={{
+            fontWeight: 300,
+            textAlign: 'center',
+            mt: 10
+          }}
+        >
+          Пользователи онлайн:
+
+        </Typography>
+        <Typography id="text45" sx={{ color: 'black', textAlign: 'center' }}>
+          <PersonIcon id="icon" fontSize="large" sx={{ paddingTop: '5px' }} viewBox="0 -7.5 24 27" />
           12
         </Typography>
       </Container>

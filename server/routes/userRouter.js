@@ -60,17 +60,19 @@ router.route('/check').post((req, res) => {
 });
 
 router.route('/logout').get((req, res) => {
-  res.app.locals.ws.delete(req.session.user.id);
-  for (const [, wsClient] of res.app.locals.ws) {
-    wsClient.ws.send(
-      JSON.stringify({
-        type: 'ADD_CHAT_USER',
-        payload: Array.from(res.app.locals.ws.values()).map((el) => el.user),
-      }),
-    );
-  }
   req.session.destroy();
   res.clearCookie('sid').sendStatus(200);
+  // res.app.locals.ws.delete(req.session.user.id);
+  // for (const [, wsClient] of res.app.locals.ws) {
+  //   wsClient.ws.send(
+  //     JSON.stringify({
+  //       type: 'ADD_CHAT_USER',
+  //       payload: Array.from(res.app.locals.ws.values()).map((el) => el.user),
+  //     }),
+  //   );
+  // }
+  // req.session.destroy();
+  // res.clearCookie('sid').sendStatus(200);
 });
 
 module.exports = router;

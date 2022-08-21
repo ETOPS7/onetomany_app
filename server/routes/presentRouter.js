@@ -2,20 +2,12 @@ const router = require('express').Router();
 const gpc = require('generate-pincode');
 const { Presentation, Cloud_template, Type_template } = require('../db/models');
 
-// получаем все презы user
 router.route('/presents').get(async (req, res) => {
-  const user_id = req.session.user.id;
-  const presents = await Presentation.findAll(
-    {
-      where: { user_id },
-    },
-  );
-  console.log('/presents bd --->', presents);
+  const presents = await Presentation.findAll();
   res.json(presents);
 });
 
-// создаем презентацию
-router.route('/:template').post(async (req, res) => {
+router.route('/:template').get(async (req, res) => {
   //   const { template } = req.params;
   const pincode = gpc(5);
   const present = await Presentation.Create({

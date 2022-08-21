@@ -13,15 +13,20 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../Redux/actions/userActions';
 
 const pages = ['Форма ответа', 'Презентации', 'Шаблоны', 'Облако слов', 'Создать презентацию', 'Регистрация', 'Авторизация'];
 const settings = ['Выход', 'О проекте'];
 const urls = ['/pincode', '/presents', '/templates', '/template/:id', '/template', 'signup', 'signin'];
 
 function MyNavBar() {
+  const user = useSelector((state) => state.user);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -36,6 +41,11 @@ function MyNavBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const logoutHandler = () => {
+    dispatch(logoutUser());
+    navigate('/');
   };
 
   return (
@@ -92,11 +102,26 @@ function MyNavBar() {
               }}
             >
               {pages.map((page, i) => (
-                <Link key={`menumap2${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography sx={{ textDecoration: 'none' }} textAlign="center">{page}</Typography>
-                  </MenuItem>
-                </Link>
+                user.id ? (
+                  i < pages.length - 2 && (
+                    <Link key={`menumap2${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography sx={{ textDecoration: 'none' }} textAlign="center">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  )
+                ) : (
+                  i < pages.length - 2 && (
+                    <Link key={`menumap2${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography sx={{ textDecoration: 'none' }} textAlign="center">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  ))
               ))}
             </Menu>
           </Box>
@@ -123,16 +148,33 @@ function MyNavBar() {
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, textDecoration: 'none' }}>
             {pages.map((page, i) => (
-              <Link key={`menumap${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2, color: 'white', display: 'block', textDecoration: 'none'
-                  }}
-                >
-                  {page}
-                </Button>
-              </Link>
+              user.id ? (
+                i < pages.length - 2 && (
+                  <Link key={`menumap${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        my: 2, color: 'white', display: 'block', textDecoration: 'none'
+                      }}
+                    >
+                      {page}
+                    </Button>
+                  </Link>
+                )
+              ) : (
+                i >= pages.length - 2 && (
+                  <Link key={`menumap${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        my: 2, color: 'white', display: 'block', textDecoration: 'none'
+                      }}
+                    >
+                      {page}
+                    </Button>
+                  </Link>
+                )
+              )
             ))}
           </Box>
 
@@ -161,9 +203,35 @@ function MyNavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+                user.id ? (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={() => {
+                        if (setting === 'Выход') {
+                          logoutHandler();
+                        }
+                      }}
+                    >
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ) : (
+                  setting !== 'Выход' && (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography
+                        textAlign="center"
+                        onClick={() => {
+                          if (setting === 'Выход') {
+                            logoutHandler();
+                          }
+                        }}
+                      >
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  )
+                )
               ))}
             </Menu>
           </Box>

@@ -3,7 +3,8 @@ const gpc = require('generate-pincode');
 const { Presentation, Cloud_template, Type_template } = require('../db/models');
 
 router.route('/presents').get(async (req, res) => {
-  const presents = await Presentation.findAll();
+  const user_id = req.session.user.id;
+  const presents = await Presentation.findAll({ where: { user_id } });
   res.json(presents);
 });
 

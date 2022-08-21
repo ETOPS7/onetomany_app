@@ -5,7 +5,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { Button } from '@mui/material';
+import {
+  Button, Checkbox, FormControlLabel, TextField
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './WelcomePage.module.css';
 
@@ -28,18 +30,37 @@ export default function WelcomePage() {
           welcome to
         </Typography>
         <Typography variant="h2" component="h1" id="maintext" gutterBottom>
-          <CheckBoxIcon sx={{ fontSize: 'inherit' }} />
+          <CheckBoxIcon sx={{ fontSize: 'inherit' }} viewBox="0 -2.9 24 24" />
           ONETOMANY
         </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{ color: 'white', border: 'white' }}
-          onClick={() => navigate('/signin')}
-        >
-          зайти как админ
+        <Box component="form" noValidate sx={{ mt: 1 }}>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              color: 'black', border: 'white', backgroundColor: 'white', '&:hover': { backgroundColor: 'red' }
+            }}
+          >
+            зайти как участник
 
-        </Button>
+          </Button>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="поле для ввода кода"
+            autoFocus
+          />
+          <Button
+            variant="contained"
+            size="large"
+            sx={{ color: 'white', border: 'white', mt: 10 }}
+            onClick={() => navigate('/signin')}
+          >
+            зайти как админ
+
+          </Button>
+        </Box>
       </Container>
     </Box>
   );

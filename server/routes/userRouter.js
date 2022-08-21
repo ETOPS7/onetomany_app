@@ -29,11 +29,18 @@ router.route('/signin').post(async (req, res) => {
 });
 
 router.route('/signup').post(async (req, res) => {
-  const { name, email, password } = req.body;
-  if (name && email && password) {
+  const {
+    name, lastname, email, password,
+  } = req.body;
+  if (name && lastname && email && password) {
     const pass = await bcrypt.hash(password, 10);
     try {
-      const newUser = await User.create({ name, email, password: pass });
+      const newUser = await User.create({
+        name,
+        lastname,
+        email,
+        password: pass,
+      });
       req.session.user = { name: newUser.name, id: newUser.id };
       return res.json({ name: newUser.name, id: newUser.id });
     } catch (err) {
@@ -45,7 +52,8 @@ router.route('/signup').post(async (req, res) => {
 });
 
 router.route('/check').post((req, res) => {
-  if (req.session.user) {
+  console.log('req.session--->', req.session);
+  if (req.session?.user) {
     return res.json(req.session.user);
   }
   return res.sendStatus(401);
@@ -58,7 +66,7 @@ router.route('/logout').get((req, res) => {
       JSON.stringify({
         type: 'ADD_CHAT_USER',
         payload: Array.from(res.app.locals.ws.values()).map((el) => el.user),
-      })
+      }),
     );
   }
   req.session.destroy();

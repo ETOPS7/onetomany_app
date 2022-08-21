@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ User, Cloud_template, Result_word }) {
       this.belongsTo(User, { foreignKey: 'user_id' });
-      this.belongsTo(Cloud_template, { foreignKey: 'present_id' });
+      this.hasOne(Cloud_template, { foreignKey: 'present_id' });
       this.hasMany(Result_word, { foreignKey: 'present_id' });
     }
   }

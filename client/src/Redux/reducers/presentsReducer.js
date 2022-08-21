@@ -4,7 +4,7 @@ const presentsReducer = (state = [], action) => {
   const { type, payload } = action;
   switch (type) {
     case PRESENTS_FOR_USER:
-    //   console.log('presentsReducer', payload);
+      console.log('presentsReducer -- PRESENTS_FOR_USER--->', payload);
       return payload;
     case ADD_PRESENT:
       return [...state, payload];

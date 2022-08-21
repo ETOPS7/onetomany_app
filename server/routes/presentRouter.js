@@ -5,7 +5,12 @@ const { Presentation, Cloud_template, Type_template } = require('../db/models');
 // получаем все презы user
 router.route('/presents').get(async (req, res) => {
   const user_id = req.session.user.id;
-  const presents = await Presentation.findAll({ where: { user_id } });
+  const presents = await Presentation.findAll(
+    {
+      where: { user_id },
+    },
+  );
+  console.log('/presents bd --->', presents);
   res.json(presents);
 });
 

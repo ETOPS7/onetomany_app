@@ -13,6 +13,8 @@ import './CreateCloudWords.nodule.css';
 import { Container } from '@mui/system';
 import PersonIcon from '@mui/icons-material/Person';
 import { Divider } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { presentAdd } from '../../Redux/actions/presentsActions';
 
 const theme = createTheme();
 
@@ -33,6 +35,18 @@ export default function CreateCloudWords() {
     { value: 'Пятница', count: 18 },
     { value: 'npm i', count: 4 },
   ];
+  const type = useSelector((state) => state.type);
+  console.log('CreateCloudWords type--->', type);
+  const dispatch = useDispatch();
+
+  const [input, setInput] = React.useState({ name: '', question: '', type });
+  const inputHandler = (e) => {
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const onlySaveHandler = () => {
+    console.log('onlySaveHandler--->', input);
+    dispatch(presentAdd(input));
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -119,18 +133,25 @@ export default function CreateCloudWords() {
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
+                name="name"
+                onChange={inputHandler}
+                value={input.name}
                 margin="normal"
                 label="Имя презентации"
                 required
                 fullWidth
               />
               <TextField
+                name="question"
+                onChange={inputHandler}
+                value={input.question}
                 margin="normal"
                 required
                 fullWidth
                 label="Введите вопрос"
               />
               <Button
+                onClick={onlySaveHandler()}
                 type="submit"
                 fullWidth
                 variant="contained"

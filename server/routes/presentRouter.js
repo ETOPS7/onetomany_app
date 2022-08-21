@@ -1,13 +1,40 @@
 const router = require('express').Router();
 const gpc = require('generate-pincode');
-const { Presentation, Cloud_template, Type_template } = require('../db/models');
+const {
+  Presentation, Cloud_template, Type_template,
+} = require('../db/models');
 
 router.route('/presents').get(async (req, res) => {
   const user_id = req.session.user.id;
-  const presents = await Presentation.findAll({ where: { user_id } });
-  res.json(presents);
+  const presents = await Presentation.findAll({
+    where: { user_id },
+    attributes:
+    // ['id', 'name','pincode'  ],
+    {
+      exclude: ['createdAt', 'updatedAt'],
+    },
+    include: [
+      {
+        model: Cloud_template,
+        // where: {Cloud_template.present_id  },
+        attributes: {
+          exclude: ['id', 'question', 'present_id', 'createdAt', 'updatedAt'],
+        },
+        include: [
+          {
+            // all: true,
+            model: Type_template,
+            attributes: [['name', 'type']],
+          },
+        ],
+      },
+    ],
+  });
+  console.log('bak allpresents ===>', JSON.parse(JSON.stringify(presents)));
+  res.json(JSON.parse(JSON.stringify(presents)));
 });
 
+// создание презентации
 router.route('/:template').get(async (req, res) => {
   //   const { template } = req.params;
   const pincode = gpc(5);
@@ -28,6 +55,7 @@ router.route('/:template').get(async (req, res) => {
   res.sendStatus(200);
 });
 
+// открытие конкретной презентации
 router.route('/:template/:id').get(async (req, res) => {
   //! id из нашего cloud template
   const { id } = req.params;

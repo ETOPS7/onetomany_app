@@ -3,13 +3,17 @@ import { ADD_PRESENT, DELETE_PRESENT, PRESENTS_FOR_USER } from '../types';
 
 const port = process.env.REACT_APP_SERVER_PATH || 'http://localhost:3001';
 
-export const presentAdd = (value) => ({
-  type: ADD_PRESENT,
-  payload: value,
-});
+export const presentAdd = (payload) => (dispatch) => {
+  axios.post(`${port}/api/admin/${payload.type}`)
+    .then((res) => dispatch({
+      type: ADD_PRESENT,
+      payload
+    }))
+    .catch((err) => console.log('err'));
+};
 // для axios нужно передать тип презентации и ее id
 export const deletePresent = (payload) => (dispatch) => {
-  axios.delete(`${port}/api/admin/${payload.template}/${payload.id}`)
+  axios.delete(`${port}/api/admin/${payload.type}/${payload.id}`)
     .then((res) => dispatch({ type: DELETE_PRESENT, payload }))
     .catch((err) => console.log('err'));
 };

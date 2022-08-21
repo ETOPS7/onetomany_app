@@ -35,7 +35,8 @@ export default function ShowCloud() {
           sx={{
             mt: 10,
             height: '50px',
-            width: '93px'
+            width: '93px',
+            '&:hover': { backgroundColor: 'lavender' }
           }}
         >
           Выход
@@ -74,7 +75,9 @@ export default function ShowCloud() {
           colorOptions={{
             luminosity: 'dark',
           }}
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          style={{
+            textAlign: 'center',
+          }}
         />
       </Box>
       <Container id="container3">

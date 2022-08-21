@@ -58,7 +58,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Enter your answer"
+              label="Введите ваш ответ"
               name="email"
               autoComplete="email"
               autoFocus

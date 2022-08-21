@@ -15,8 +15,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Link } from 'react-router-dom';
 
-const pages = ['Форма ответа', 'Презентации', 'Шаблоны', 'Облако слов', 'Создать презентацию', 'Авторизоваться', 'Зарегистрироваться'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Форма ответа', 'Презентации', 'Шаблоны', 'Облако слов', 'Создать презентацию', 'Регистрация', 'Авторизация'];
+const settings = ['Выход', 'О проекте'];
 const urls = ['/pincode', '/presents', '/templates', '/template/:id', '/template', 'signup', 'signin'];
 
 function MyNavBar() {
@@ -137,9 +137,11 @@ function MyNavBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Открыть настройки">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar sx={{ m: 1, bgcolor: 'lavender', color: 'darkblue' }}>
+                  <ManageAccountsIcon />
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu

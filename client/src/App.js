@@ -1,4 +1,3 @@
-import './styles/App.css';
 import {
   Routes,
   Route,
@@ -16,6 +15,7 @@ import { socketInit } from './Redux/actions/wsActions';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import { userCheck } from './Redux/actions/userActions';
 import FromAnswerCloud from './components/FormAnswer/FromAnswerCloud';
+import './styles/index.css';
 
 function App() {
   const dispatch = useDispatch();

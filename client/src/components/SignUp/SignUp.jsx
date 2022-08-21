@@ -37,7 +37,7 @@ export default function SignUp() {
       email: data.get('email') || '',
       password: data.get('password') || '',
     };
-    console.log('sign up data.length---->');
+    console.log('sign up data.length---->', newUser);
     if (newUser.name && newUser.lastname && newUser.email && newUser.password) {
       dispatch(userSignUp(newUser));
     }
@@ -80,7 +80,7 @@ export default function SignUp() {
                   fullWidth
                   id="lastName"
                   label="Никнейм"
-                  name="Last Name"
+                  name="lastName"
                   autoComplete="family-name"
                 />
               </Grid>

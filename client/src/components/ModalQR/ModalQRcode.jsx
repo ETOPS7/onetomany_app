@@ -22,7 +22,7 @@ export default function ModalQRcode() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const location = `${process.env.REACT_APP_SERVER_PATH}`;
+  const location = `${process.env.REACT_APP_CLIENT_PATH}`;
 
   return (
     <div>

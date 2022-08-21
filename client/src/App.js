@@ -15,6 +15,7 @@ import { socketInit } from './Redux/actions/wsActions';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import { userCheck } from './Redux/actions/userActions';
 import FromAnswerCloud from './components/FormAnswer/FromAnswerCloud';
+import ModalQRcode from './components/ModalQR/ModalQRcode';
 import './styles/index.css';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
         <Route path="/template/:id" element={<ShowCloud />} />
         <Route path="/template" element={<CreateCloudWords />} />
         <Route path="/pincode" element={<FromAnswerCloud />} />
+        <Route path="/qr" element={<ModalQRcode />} />
       </Routes>
     </div>
   );

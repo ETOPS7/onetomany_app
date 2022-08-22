@@ -4,7 +4,7 @@ module.exports = {
       'Type_templates',
       [
         {
-          name: 'Words cloud',
+          name: 'wordscloud',
           createdAt: new Date(),
           updatedAt: new Date(),
         },

@@ -12,29 +12,22 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>
-      {new Date().getFullYear()}
-    </Typography>
-  );
-}
+import { useSelector } from 'react-redux';
+import { addWord } from '../../Redux/actions/wordsActions';
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function FromAnswerCloud() {
+  const currentpresent = useSelector((state) => state.currentpresent);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatchEvent(
+      addWord({
+        word: data.get('word'),
+        present_id: currentpresent.payload.id
+      })
+    );
   };
 
   return (
@@ -57,17 +50,19 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="word"
               label="Введите ваш ответ"
-              name="email"
-              autoComplete="email"
+              name="word"
+              autoComplete="word"
               autoFocus
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: 3, mb: 2, backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }
+              }}
             >
               ОТВЕТИТЬ
             </Button>

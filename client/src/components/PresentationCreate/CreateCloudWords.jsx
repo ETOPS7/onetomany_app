@@ -148,19 +148,19 @@ export default function CreateCloudWords() {
                 Добавить и сохранить
               </Button>
             </Box>
-              <Button
-                type="submit"
-                fullWidth
-                onClick={saveAndShowHandler}
-                variant="outlined"
-                sx={{
-                  mt: 25, mb: 2, backgroundColor: 'white', color: '#008964', height: '100px'
-                }}
-                id="btn2"
-                startIcon={<PlayCircleOutlineIcon />}
-              >
-                <Typography id="begin">Начать презентацию</Typography>
-              </Button>
+            <Button
+              type="submit"
+              fullWidth
+              onClick={saveAndShowHandler}
+              variant="outlined"
+              sx={{
+                mt: 25, mb: 2, backgroundColor: 'white', color: '#008964', height: '100px'
+              }}
+              id="btn2"
+              startIcon={<PlayCircleOutlineIcon />}
+            >
+              <Typography id="begin">Начать презентацию</Typography>
+            </Button>
           </Box>
         </Grid>
       </Grid>

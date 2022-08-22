@@ -19,7 +19,7 @@ import { logoutUser } from '../../Redux/actions/userActions';
 
 const pages = ['Форма ответа', 'Презентации', 'Шаблоны', 'Облако слов', 'Создать презентацию', 'Регистрация', 'Авторизация'];
 const settings = ['Выход', 'О проекте'];
-const urls = ['/pincode', '/presents', '/templates', '/template/:id', '/template', 'signup', 'signin'];
+const urls = ['/pincode', '/presents', '/templates', '/:id/:template', '/template', 'signup', 'signin'];
 
 function MyNavBar() {
   const user = useSelector((state) => state.user);

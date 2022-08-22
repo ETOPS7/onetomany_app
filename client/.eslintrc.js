@@ -43,5 +43,6 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     camelcase: 'off',
     'no-param-reassign': 0,
+    'func-names': 0,
   },
 };

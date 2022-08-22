@@ -34,7 +34,8 @@ function App() {
 
   return (
     <div>
-      <MyNavBar />
+      {user.id
+      && <MyNavBar />}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/signin" element={<SignIn />} />

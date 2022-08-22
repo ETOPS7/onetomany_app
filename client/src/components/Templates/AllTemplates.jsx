@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -27,7 +28,7 @@ const tiers = [
       'тут что-то написано',
     ],
     buttonText: 'Выбрать шаблон',
-    buttonVariant: 'outlined',
+    buttonVariant: 'contained',
   },
   {
     title: 'Шаблон 2',
@@ -42,6 +43,7 @@ const tiers = [
     ],
     buttonText: 'Выбрать шаблон',
     buttonVariant: 'contained',
+    backgroundColor: '#008964'
   },
   {
     title: 'Шаблон 3',
@@ -55,7 +57,7 @@ const tiers = [
       'тут что-то написано',
     ],
     buttonText: 'Выбрать шаблон',
-    buttonVariant: 'outlined',
+    buttonVariant: 'contained',
   },
 ];
 
@@ -145,7 +147,13 @@ export default function AllTemplates() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button
+                    fullWidth
+                    variant={tier.buttonVariant}
+                    sx={{
+                      backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }, color: 'white'
+                    }}
+                  >
                     {tier.buttonText}
                   </Button>
                 </CardActions>

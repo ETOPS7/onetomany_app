@@ -134,17 +134,21 @@ export default function CreateCloudWords() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3, mb: 2, backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }
+                }}
               >
                 Добавить и сохранить
               </Button>
               <Button
                 type="submit"
-                // fullWidth
-                variant="contained"
-                sx={{ mt: 25, mb: 2 }}
+                fullWidth
+                variant="outlined"
+                sx={{
+                  mt: 25, mb: 2, backgroundColor: 'white', color: '#008964', height: '100px'
+                }}
                 id="btn2"
-                startIcon={<PlayCircleOutlineIcon fontSize="large" />}
+                startIcon={<PlayCircleOutlineIcon />}
               >
                 <Typography id="begin">Начать презентацию</Typography>
               </Button>

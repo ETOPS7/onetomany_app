@@ -1,0 +1,19 @@
+@media (min-width: 768px) and (max-width: 992px) {
+    #maintext {
+  font-size: 90px;
+    }
+  }
+      
+      /* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
+      @media (min-width: 992px) and (max-width: 1200px) {
+          #maintext {
+              font-size: 100px;
+                }
+      }
+      
+      /* Устройства с большим экраном (компьютеры, 1200px и выше) */
+      @media (min-width: 1200px) {
+          #maintext {
+              font-size: 130px;
+                }
+      }

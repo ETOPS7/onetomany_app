@@ -77,8 +77,8 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Никнейм"
-                  name="lastName"
+                  label="Фамилия"
+                  name="Last Name"
                   autoComplete="family-name"
                 />
               </Grid>

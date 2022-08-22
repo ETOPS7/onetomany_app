@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -50,9 +50,9 @@ function MyNavBar() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+      <Container maxWidth="xl" sx={{ backgroundColor: '#3bba92' }}>
+        <Toolbar disableGutters sx={{ backgroundColor: '#3bba92' }}>
+          <CheckBoxIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
             <Typography
               variant="h6"
@@ -71,7 +71,6 @@ function MyNavBar() {
               ONETOMANY
             </Typography>
           </Link>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, textDecoration: 'none' }}>
             <IconButton
               size="large"
@@ -125,7 +124,7 @@ function MyNavBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <CheckBoxIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
             <Typography
               variant="h5"
@@ -177,11 +176,11 @@ function MyNavBar() {
               )
             ))}
           </Box>
-
+          {user.id && <Typography>{user.name}</Typography>}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Открыть настройки">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar sx={{ m: 1, bgcolor: 'lavender', color: 'darkblue' }}>
+                <Avatar sx={{ m: 1, bgcolor: 'lavender', color: '#008964' }}>
                   <ManageAccountsIcon />
                 </Avatar>
               </IconButton>

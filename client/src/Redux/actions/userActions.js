@@ -24,13 +24,13 @@ export const userCheck = () => (dispatch) => {
     });
 };
 
-export const signInUser = (input) => (dispatch) => {
+export const signInUser = (input, setError) => (dispatch) => {
   axios.post(`${port}/api/user/signin`, input)
     .then((res) => {
       console.log('signInUser', res.data);
       dispatch(userAdd(res.data));
     })
-    .catch((err) => console.log('err'));
+    .catch((err) => { console.log('err'); setError(false); });
 };
 
 export const logoutUser = () => (dispatch) => {

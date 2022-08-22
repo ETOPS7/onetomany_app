@@ -3,15 +3,18 @@ const gpc = require('generate-pincode');
 const {
   Presentation, Cloud_template, Type_template,
 } = require('../db/models');
+const jsonHalper = (string) => JSON.parse(JSON.stringify(string));
 
 router.route('/presents').get(async (req, res) => {
   const user_id = req.session.user.id;
-  const presents = await Presentation.findAll({
+  const user_name = req.session.user.name;
+  let presents = await Presentation.findAll({
     where: { user_id },
+    // plain: true,
     attributes:
     // ['id', 'name','pincode'  ],
     {
-      exclude: ['createdAt', 'updatedAt'],
+      exclude: ['updatedAt'],
     },
     include: [
       {
@@ -30,16 +33,32 @@ router.route('/presents').get(async (req, res) => {
       },
     ],
   });
-  console.log('bak allpresents ===>', JSON.parse(JSON.stringify(presents)));
+
+  // console.log('bak allpresents ===>', JSON.parse(JSON.stringify(presents)));
+  // console.log('presents.Cloud_template',
+  // jsonHalper(jsonHalper(presents[0].Cloud_template).Type_template));
+
+  presents = presents.map((el) => {
+    const { type } = jsonHalper(jsonHalper(el.Cloud_template).Type_template);
+    // console.log('el------>', el);
+    return {
+      id: el.id,
+      name: el.name,
+      user: user_name,
+      pincode: el.pincode,
+      createdAt: el.createdAt,
+      type,
+    };
+  });
   res.json(JSON.parse(JSON.stringify(presents)));
 });
 
 // создание презентации
-router.route('/:template').get(async (req, res) => {
+router.route('/:template').post(async (req, res) => {
   //   const { template } = req.params;
   const pincode = gpc(5);
-  const present = await Presentation.Create({
-    user_id: res.session.user.id,
+  const present = await Presentation.create({
+    user_id: req.session.user.id,
     name: req.body.name,
     pincode,
   });
@@ -47,7 +66,7 @@ router.route('/:template').get(async (req, res) => {
   const typetemplate = await Type_template.findOne({
     where: { name: req.params.template },
   });
-  Cloud_template.Create({
+  Cloud_template.create({
     present_id: present.id,
     question: req.body.question,
     type_id: typetemplate.id,

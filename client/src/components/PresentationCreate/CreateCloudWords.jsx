@@ -43,7 +43,8 @@ export default function CreateCloudWords() {
   const inputHandler = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const onlySaveHandler = () => {
+  const onlySaveHandler = (e) => {
+    e.preventDefault();
     console.log('onlySaveHandler--->', input);
     dispatch(presentAdd(input));
   };
@@ -131,7 +132,8 @@ export default function CreateCloudWords() {
             <Typography component="h1" variant="h5" id="text">
               Создание презентации
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+
+            <Box onSubmit={onlySaveHandler} component="form" noValidate sx={{ mt: 1 }}>
               <TextField
                 name="name"
                 onChange={inputHandler}
@@ -151,7 +153,7 @@ export default function CreateCloudWords() {
                 label="Введите вопрос"
               />
               <Button
-                onClick={onlySaveHandler()}
+                // onClick={onlySaveHandler}
                 type="submit"
                 fullWidth
                 variant="contained"

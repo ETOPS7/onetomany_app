@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const gpc = require('generate-pincode');
 const {
-  Presentation, Cloud_template, Type_template,
+  Presentation, Cloud_template, Type_template, Result_word,
 } = require('../db/models');
 const jsonHalper = (string) => JSON.parse(JSON.stringify(string));
 
@@ -11,17 +11,11 @@ router.route('/presents').get(async (req, res) => {
   let presents = await Presentation.findAll({
     where: { user_id },
     // plain: true,
-    attributes:
-    // ['id', 'name','pincode'  ],
-    {
-      exclude: ['updatedAt'],
-    },
     include: [
       {
         model: Cloud_template,
-        // where: {Cloud_template.present_id  },
         attributes: {
-          exclude: ['id', 'question', 'present_id', 'createdAt', 'updatedAt'],
+          exclude: ['id', 'present_id', 'createdAt', 'updatedAt'],
         },
         include: [
           {
@@ -40,21 +34,23 @@ router.route('/presents').get(async (req, res) => {
 
   presents = presents.map((el) => {
     const { type } = jsonHalper(jsonHalper(el.Cloud_template).Type_template);
-    // console.log('el------>', el);
     return {
       id: el.id,
       name: el.name,
+      question: el.question,
       user: user_name,
       pincode: el.pincode,
       createdAt: el.createdAt,
       type,
     };
   });
-  res.json(JSON.parse(JSON.stringify(presents)));
+  res.json(jsonHalper(presents));
 });
 
 // создание презентации
 router.route('/:template').post(async (req, res) => {
+  console.log('size------------------------', req.app.locals.ws.size);
+
   //   const { template } = req.params;
   const pincode = gpc(5);
   const present = await Presentation.create({
@@ -71,21 +67,36 @@ router.route('/:template').post(async (req, res) => {
     question: req.body.question,
     type_id: typetemplate.id,
   });
-  res.sendStatus(200);
+  const OnePresent = {
+    id: present.id,
+    name: present.name,
+    question: req.body.question,
+    user: req.session.user.name,
+    pincode: present.pincode,
+    createdAt: present.createdAt,
+    type: req.params.template,
+  };
+  res.json(OnePresent);
 });
 
 // открытие конкретной презентации
 router.route('/:template/:id').get(async (req, res) => {
-  //! id из нашего cloud template
-  const { id } = req.params;
-  const cloudtemplate = await Cloud_template.findOne({
-    where: { id },
-  });
-  res.json(cloudtemplate);
+  console.log('size------------------------', req.app.locals.ws.size);
+
+  console.log("router.route('/:template/:id').get=====>", req.params.id);
+  const present_id = req.params.id;
+  const words = Result_word.findAll({ where: { present_id } });
+  res.json(words);
+  // //! id из нашего cloud template
+  // const { id } = req.params;
+  // const cloudtemplate = await Cloud_template.findOne({
+  //   where: { id },
+  // });
+  // res.json(cloudtemplate);
 });
 
 //! удаление презентаци на странице со списком всех презентаций
-router.route('/:template/:id').delete(async (req, res) => {
+router.route('/:id/:template').delete(async (req, res) => {
   try {
     await Presentation.destroy({ where: { id: req.params.id } });
     return res.sendStatus(200);
@@ -93,6 +104,37 @@ router.route('/:template/:id').delete(async (req, res) => {
     console.log(err);
     return res.sendStatus(500);
   }
+});
+
+router.route('/word').post(async (req, res) => {
+  console.log('size------------------------', req.app.locals.ws.size);
+  const currentword = await Result_word.findOne({
+    where: {
+      word: req.body.word,
+    },
+  });
+  if (currentword) {
+    // Result_word.update({ count: word.count + 1 });
+    Result_word.increment(
+      { count: +1 },
+      {
+        where: {
+          word: currentword.word,
+          present_id: currentword.present_id,
+        },
+      },
+    );
+    Result_word.save();
+  } else {
+    Result_word.create({
+      present_id: req.body.present_id,
+      word: req.body.word,
+      count: 1,
+    });
+  }
+
+  const allWords = await Result_word.findAll({ where: { present_id: currentword.present_id } });
+  req.app.locals.ws.words = allWords;
 });
 
 module.exports = router;

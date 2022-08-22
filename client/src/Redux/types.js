@@ -5,3 +5,7 @@ export const ADD_USER = 'ADD_USER';
 export const ADD_PRESENT = 'ADD_PRESENT';
 export const PRESENTS_FOR_USER = 'PRESENTS_FOR_USER';
 export const DELETE_PRESENT = 'DELETE_PRESENT';
+export const GET_WORDS = 'GET_WORDS';
+export const SET_WORDS = 'SET_WORDS';
+export const ADD_WORD = 'ADD_WORD';
+export const CHANGE_STATE = 'CHANGE_STATE';

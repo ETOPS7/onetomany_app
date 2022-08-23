@@ -7,6 +7,7 @@ import store from './Redux/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

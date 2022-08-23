@@ -131,3 +131,4 @@ dist
 
 # custom gitignore
 sessions/
+.eslintrc.js

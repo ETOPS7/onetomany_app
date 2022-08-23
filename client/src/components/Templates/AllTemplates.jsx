@@ -1,19 +1,17 @@
 /* eslint-disable max-len */
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import CssBaseline from '@mui/material/CssBaseline';
+
 import Grid from '@mui/material/Grid';
-import StarIcon from '@mui/icons-material/StarBorder';
-import Toolbar from '@mui/material/Toolbar';
+
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import GlobalStyles from '@mui/material/GlobalStyles';
+
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -70,10 +68,10 @@ const tiers = [
 export default function AllTemplates() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handlerTypeNavigate = (typever) => {
-    dispatch(addType(typever));
-    navigate(`/${typever}`);
-  };
+  // const handlerTypeNavigate = (typever) => {
+  //   dispatch(addType(typever));
+  //   navigate(`/${typever}`);
+  // };
   return (
     <>
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 3, pb: 6 }}>

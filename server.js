@@ -3,9 +3,10 @@ const express = require('express');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const cors = require('cors');
+const path = require('path');
 
 const http = require('http');
-const morgan = require('morgan');
+
 const wss = require('./webSockets');
 
 const PORT = process.env.PORT || 3001;
@@ -16,21 +17,21 @@ app.locals.ws = new Map();
 const userRouter = require('./routes/userRouter');
 const presentRouter = require('./routes/presentRouter');
 
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.json());
-app.use(morgan('dev'));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
     origin: true,
-  }),
+  })
 );
 
 const sessionParser = session({
-  name: 'sid',
+  name: process.env.SESSION_NAME || 'sid',
   store: new FileStore({}),
   secret: process.env.SECRET || 'thisisnotsecure',
-  // TODO true для не авторизованых
   saveUninitialized: true,
   resave: true,
   cookie: {
@@ -49,6 +50,10 @@ app.use('/api/user', userRouter);
 app.use('/api/admin', presentRouter);
 
 const server = http.createServer(app);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
 
 server.on('upgrade', (request, socket, head) => {
   console.log('Parsing session from request...', app.locals.ws);

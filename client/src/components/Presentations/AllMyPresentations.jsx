@@ -20,7 +20,6 @@ import {
   randomTraderName,
   randomUpdatedDate,
   randomId,
-  useDemoData,
 } from '@mui/x-data-grid-generator';
 
 let idCounter = 0;
@@ -126,7 +125,7 @@ const initialRows = [
 
 export default function FullFeaturedCrudGrid() {
   const [rows, setRows] = React.useState(initialRows);
-  const [rowModesModel, setRowModesModel] = React.useState({});
+  // const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleAddRow = () => {
     setRows((prevRows) => [...prevRows, createRandomRow()]);

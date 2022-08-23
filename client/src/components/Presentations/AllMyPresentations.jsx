@@ -1,93 +1,249 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import FolderIcon from '@mui/icons-material/Folder';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, Stack } from '@mui/material';
+import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
+import {
+  GridRowModes,
+  DataGrid,
+  GridToolbarContainer,
+  GridActionsCellItem,
+} from '@mui/x-data-grid';
+import {
+  randomCreatedDate,
+  randomTraderName,
+  randomUpdatedDate,
+  randomId,
+  useDemoData,
+} from '@mui/x-data-grid-generator';
 
-function generate(element) {
-  return [0, 1, 2].map((value) => React.cloneElement(element, {
-    key: value,
-  }));
-}
+let idCounter = 0;
+const createRandomRow = () => {
+  idCounter += 1;
+  return { id: idCounter, name: randomTraderName(), age: randomCreatedDate() };
+};
 
-const Demo = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-}));
+function RenderDate(props) {
+  const { hasFocus, value } = props;
+  const buttonElement = React.useRef(null);
+  const rippleRef = React.useRef(null);
 
-export default function AllMyPresentation() {
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
+  React.useLayoutEffect(() => {
+    if (hasFocus) {
+      const input = buttonElement.current?.querySelector('input');
+      input?.focus();
+    } else if (rippleRef.current) {
+      // Only available in @mui/material v5.4.1 or later
+      rippleRef.current.stop({});
+    }
+  }, [hasFocus]);
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-      <FormGroup row>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={dense}
-              onChange={(event) => setDense(event.target.checked)}
-            />
-          )}
-          label="Enable dense"
-        />
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={secondary}
-              onChange={(event) => setSecondary(event.target.checked)}
-            />
-          )}
-          label="Enable secondary text"
-        />
-      </FormGroup>
-      <Stack sx={{ justifyContent: 'flex-end' }} direction="row" spacing={2}>
-        <Button variant="contained" startIcon={<AddIcon />}>
-          NEW PRESENTATION
+    <strong>
+      {/* {value?.getFullYear() ?? ''} */}
+      <Button
+        component="button"
+        ref={buttonElement}
+        touchRippleRef={rippleRef}
+        variant="contained"
+        size="small"
+        style={{ marginLeft: 16 }}
+        // Remove button from tab sequence when cell does not have focus
+        tabIndex={hasFocus ? 0 : -1}
+        onKeyDown={(event) => {
+          if (event.key === ' ') {
+            // Prevent key navigation when focus is on button
+            event.stopPropagation();
+          }
+        }}
+      >
+        PLAY
+      </Button>
+    </strong>
+  );
+}
+
+RenderDate.propTypes = {
+  /**
+   * If true, the cell is the active element.
+   */
+  hasFocus: PropTypes.bool.isRequired,
+  /**
+   * The cell value, but if the column has valueGetter, use getValue.
+   */
+  // eslint-disable-next-line react/require-default-props
+  value: PropTypes.instanceOf(Date),
+};
+
+const initialRows = [
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 25,
+    dateCreated: randomCreatedDate(),
+    lastLogin: randomUpdatedDate(),
+    date: new Date(1979, 0, 1),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 36,
+    dateCreated: randomCreatedDate(),
+    lastLogin: randomUpdatedDate(),
+    date: new Date(1979, 0, 1),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 19,
+    dateCreated: randomCreatedDate(),
+    lastLogin: randomUpdatedDate(),
+    date: new Date(1979, 0, 1),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 28,
+    dateCreated: randomCreatedDate(),
+    lastLogin: randomUpdatedDate(),
+    date: new Date(1979, 0, 1),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 23,
+    dateCreated: randomCreatedDate(),
+    lastLogin: randomUpdatedDate(),
+    date: new Date(1979, 0, 1),
+  },
+];
+
+export default function FullFeaturedCrudGrid() {
+  const [rows, setRows] = React.useState(initialRows);
+  const [rowModesModel, setRowModesModel] = React.useState({});
+
+  const handleAddRow = () => {
+    setRows((prevRows) => [...prevRows, createRandomRow()]);
+  };
+
+  const handleDeleteClick = (id) => () => {
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const columns = [
+    {
+      field: 'date',
+      headerName: 'PLAY',
+      headerClassName: 'super-app-theme--header',
+      headerAlign: 'center',
+      width: 150,
+      renderCell: RenderDate,
+    },
+    {
+      field: 'name',
+      headerName: 'Name',
+      headerClassName: 'super-app-theme--header',
+      headerAlign: 'center',
+      width: 180,
+      editable: true,
+    },
+    {
+      field: 'type_template',
+      headerName: 'Type Template',
+      headerClassName: 'super-app-theme--header',
+      headerAlign: 'center',
+      width: 180,
+      editable: true,
+    },
+    {
+      field: 'name_admin',
+      headerName: 'Name Admin',
+      headerClassName: 'super-app-theme--header',
+      headerAlign: 'center',
+      width: 180,
+      editable: true,
+    },
+    {
+      field: 'dateCreated',
+      headerName: 'Date Created',
+      headerClassName: 'super-app-theme--header',
+      headerAlign: 'center',
+      type: 'date',
+      width: 180,
+      editable: true,
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      headerClassName: 'super-app-theme--header',
+      headerAlign: 'center',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => [
+        <GridActionsCellItem
+          icon={<DeleteIcon />}
+          label="Delete"
+          onClick={handleDeleteClick(id)}
+          color="inherit"
+        />,
+      ]
+      ,
+    },
+  ];
+
+  return (
+    <Box sx={{
+      height: 100,
+      width: '60%',
+      margin: 'auto',
+      /* '& .super-app-theme--header': {
+        backgroundColor: 'rgba(255, 7, 0, 0.55)',
+      }, */
+    }}
+    >
+      <Stack direction="row" spacing={1}>
+        <Button size="small" onClick={handleAddRow}>
+          Add a row
         </Button>
       </Stack>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            Avatar with text and icon
-          </Typography>
-          <Demo>
-            <List dense={dense}>
-              {generate(
-                <ListItem
-                  secondaryAction={(
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondary={secondary ? 'Secondary text' : null}
-                  />
-                </ListItem>,
-              )}
-            </List>
-          </Demo>
-        </Grid>
-      </Grid>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          height: 525,
+          width: '100%',
+          '& .actions': {
+            color: 'text.secondary',
+          },
+          '& .textPrimary': {
+            color: 'text.primary',
+          },
+        }}
+      >
+        <DataGrid
+          sx={{
+            boxShadow: 2,
+            border: 2,
+            borderColor: 'primary.light',
+            '& .MuiDataGrid-cell:hover': {
+              color: 'primary.main',
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          componentsProps={{
+            toolbar: { setRows },
+          }}
+          experimentalFeatures={{ newEditingApi: true }}
+        />
+      </Box>
     </Box>
   );
 }

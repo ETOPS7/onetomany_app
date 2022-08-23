@@ -11,17 +11,22 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../Redux/actions/userActions';
 
-const pages = ['Форма ответа', 'Презентации', 'Шаблоны', 'Облако слов', 'Создать презентацию', 'Авторизоваться', 'Зарегистрироваться'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const urls = ['/pincode', '/presents', '/templates', '/template/:id', '/template', 'signup', 'signin'];
+const pages = ['Форма ответа', 'Презентации', 'Шаблоны', 'Облако слов', 'Создать презентацию', 'Регистрация', 'Авторизация'];
+const settings = ['Выход', 'О проекте'];
+const urls = ['/pincode', '/presents', '/templates', '/:id/:template', '/template', 'signup', 'signin'];
 
 function MyNavBar() {
+  const user = useSelector((state) => state.user);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,11 +43,16 @@ function MyNavBar() {
     setAnchorElUser(null);
   };
 
+  const logoutHandler = () => {
+    dispatch(logoutUser());
+    navigate('/');
+  };
+
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+      <Container maxWidth="xl" sx={{ backgroundColor: '#3bba92' }}>
+        <Toolbar disableGutters sx={{ backgroundColor: '#3bba92' }}>
+          <CheckBoxIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
             <Typography
               variant="h6"
@@ -61,7 +71,6 @@ function MyNavBar() {
               ONETOMANY
             </Typography>
           </Link>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, textDecoration: 'none' }}>
             <IconButton
               size="large"
@@ -92,15 +101,30 @@ function MyNavBar() {
               }}
             >
               {pages.map((page, i) => (
-                <Link key={`menumap2${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography sx={{ textDecoration: 'none' }} textAlign="center">{page}</Typography>
-                  </MenuItem>
-                </Link>
+                user.id ? (
+                  i < pages.length - 2 && (
+                    <Link key={`menumap2${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography sx={{ textDecoration: 'none' }} textAlign="center">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  )
+                ) : (
+                  i < pages.length - 2 && (
+                    <Link key={`menumap2${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography sx={{ textDecoration: 'none' }} textAlign="center">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  ))
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <CheckBoxIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
             <Typography
               variant="h5"
@@ -123,23 +147,42 @@ function MyNavBar() {
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, textDecoration: 'none' }}>
             {pages.map((page, i) => (
-              <Link key={`menumap${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2, color: 'white', display: 'block', textDecoration: 'none'
-                  }}
-                >
-                  {page}
-                </Button>
-              </Link>
+              user.id ? (
+                i < pages.length - 2 && (
+                  <Link key={`menumap${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        my: 2, color: 'white', display: 'block', textDecoration: 'none'
+                      }}
+                    >
+                      {page}
+                    </Button>
+                  </Link>
+                )
+              ) : (
+                i >= pages.length - 2 && (
+                  <Link key={`menumap${i}`} to={urls[i]} style={{ textDecoration: 'none' }}>
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        my: 2, color: 'white', display: 'block', textDecoration: 'none'
+                      }}
+                    >
+                      {page}
+                    </Button>
+                  </Link>
+                )
+              )
             ))}
           </Box>
-
+          {user.id && <Typography>{user.name}</Typography>}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Открыть настройки">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar sx={{ m: 1, bgcolor: 'lavender', color: '#008964' }}>
+                  <ManageAccountsIcon />
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -159,9 +202,35 @@ function MyNavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+                user.id ? (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={() => {
+                        if (setting === 'Выход') {
+                          logoutHandler();
+                        }
+                      }}
+                    >
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ) : (
+                  setting !== 'Выход' && (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography
+                        textAlign="center"
+                        onClick={() => {
+                          if (setting === 'Выход') {
+                            logoutHandler();
+                          }
+                        }}
+                      >
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  )
+                )
               ))}
             </Menu>
           </Box>

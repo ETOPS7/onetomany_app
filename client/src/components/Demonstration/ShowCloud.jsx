@@ -7,24 +7,18 @@ import { TagCloud } from 'react-tagcloud';
 import PersonIcon from '@mui/icons-material/Person';
 import './ShowCloud.module.css';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export default function ShowCloud() {
-  const data = [
-    { value: 'Повтор', count: 1 },
-    { value: 'Судоку', count: 1 },
-    { value: 'React', count: 5 },
-    { value: 'Чекпоинт', count: 2 },
-    { value: 'Антон', count: 33 },
-    { value: 'Киты', count: 18 },
-    { value: 'Стендап', count: 25 },
-    { value: 'Повтор', count: 5 },
-    { value: 'Судоку', count: 1 },
-    { value: 'React', count: 45 },
-    { value: 'Чекпоинт', count: 1 },
-    { value: 'Антон', count: 2 },
-    { value: 'Киты', count: 2 },
-    { value: 'Стендап', count: 50 },
-  ];
+  const currentpresent = useSelector((state) => state.currentpresent);
+  console.log('currentpresent 3 ======>', currentpresent);
+
+  const words = useSelector((state) => state.words);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: 'GET_WORDS', payload: currentpresent.payload.id });
+  }, [words]);
 
   return (
     <Container id="container">
@@ -35,7 +29,8 @@ export default function ShowCloud() {
           sx={{
             mt: 10,
             height: '50px',
-            width: '93px'
+            width: '93px',
+            '&:hover': { backgroundColor: 'lavender' }
           }}
         >
           Выход
@@ -69,12 +64,14 @@ export default function ShowCloud() {
         <TagCloud
           minSize={19}
           maxSize={70}
-          tags={data}
+          tags={words}
           className="simple-cloud"
           colorOptions={{
             luminosity: 'dark',
           }}
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          style={{
+            textAlign: 'center',
+          }}
         />
       </Box>
       <Container id="container3">

@@ -5,8 +5,8 @@ const wordsReducer = (state = [], action) => {
   switch (type) {
     case ADD_WORD:
       return [...state, payload];
-    // case GET_WORDS:
-    //   return payload;
+    case GET_WORDS:
+      return payload;
     default:
       return state;
   }

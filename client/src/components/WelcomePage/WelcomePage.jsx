@@ -11,10 +11,14 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { checkPincode } from '../../Redux/actions/currentPresentActions';
 
 export default function WelcomePage() {
   const [input, setInput] = useState([]);
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const submitHandler = (e) => {
     const test = /^[0-9]+$/.test(input[0]);
@@ -24,9 +28,21 @@ export default function WelcomePage() {
     } else if (!test) {
       setError(true);
     } else {
-      navigate('/template/:id');
+      console.log('WelcomePage -- checkPincode() --- input[0] --->', input[0]);
+      dispatch(checkPincode({ pincode: input[0] }));
     }
   };
+  const pinCheck = useSelector((state) => state.pincodeCheck);
+  const crprt = useSelector((state) => state.currentpresent);
+  console.log('pincodeCheck 4.1 ======>', pinCheck);
+  useEffect(() => {
+    // "/:id/:template/:pincode" переход на форму с ответом
+    console.log('pincodeCheck 4.2 ======>', pinCheck);
+    console.log('currentpresent 4 ======>', crprt);
+    if (pinCheck) {
+      navigate(`/${crprt.id}/${crprt.type}/${crprt.pincode}`);
+    }
+  }, [pinCheck]);
 
   const changeHandler = (e) => {
     setInput((prev) => ([e.target.value]));

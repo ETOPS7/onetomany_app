@@ -12,20 +12,21 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addWord } from '../../Redux/actions/wordsActions';
 
 const theme = createTheme();
 
 export default function FromAnswerCloud() {
   const currentpresent = useSelector((state) => state.currentpresent);
+  const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    dispatchEvent(
+    dispatch(
       addWord({
         word: data.get('word'),
-        present_id: currentpresent.payload.id
+        present_id: currentpresent.id
       })
     );
   };

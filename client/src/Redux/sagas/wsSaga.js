@@ -7,7 +7,9 @@ import {
   takeEvery,
 } from 'redux-saga/effects';
 import { eventChannel, END } from 'redux-saga';
-import { GET_WORDS, SET_WORDS, SET_WS } from '../types';
+import {
+  GET_WORDS, SET_ROOM, SET_WORDS, SET_WS
+} from '../types';
 
 function createSocketChannel(socket, action) {
   return eventChannel((emit) => {
@@ -69,6 +71,13 @@ function* setUserWords(socket) {
   }
 }
 
+function* setRoom(socket) {
+  while (true) {
+    const room = yield take(SET_ROOM);
+    socket.send(JSON.stringify(room));
+  }
+}
+
 function* chatWatcer(action) {
   const socket = yield call(createWebSocketConnection);
   const socketChannel = yield call(createSocketChannel, socket, action);
@@ -76,10 +85,12 @@ function* chatWatcer(action) {
   // yield fork(userMessage, socket);
   yield fork(getUserWords, socket);
   yield fork(setUserWords, socket);
+  yield fork(setRoom, socket);
 
   while (true) {
     try {
       const backAction = yield take(socketChannel);
+      console.log('bak action===>', backAction);
       yield put(backAction);
     } catch (err) {
       console.error('socket error:', err);

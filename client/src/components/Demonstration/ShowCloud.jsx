@@ -17,7 +17,8 @@ export default function ShowCloud() {
   const words = useSelector((state) => state.words);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({ type: 'GET_WORDS', payload: currentpresent.payload.id });
+    // dispatch({ type: 'GET_WORDS', payload: currentpresent.payload.id });
+    dispatch({ type: 'SET_ROOM', payload: currentpresent.id });
   }, [words]);
 
   return (

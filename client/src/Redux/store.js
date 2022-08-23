@@ -8,6 +8,7 @@ import typeReducer from './reducers/typeReducer';
 import currentPresentReducer from './reducers/currentPresentReducer';
 import wordsReducer from './reducers/wordsReducer';
 import stateReducer from './reducers/stateReducer';
+import pincodeReducer from './reducers/pincodeReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,6 +21,7 @@ const store = configureStore({
     currentpresent: currentPresentReducer,
     words: wordsReducer,
     state: stateReducer,
+    pincodeCheck: pincodeReducer,
   },
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware(),

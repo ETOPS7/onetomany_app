@@ -35,6 +35,7 @@ export default function CreateCloudWords() {
   const onlySaveHandler = (e) => {
     e.preventDefault();
     dispatch(presentAdd(input));
+    navigate('/presents');
   };
 
   const saveAndShowHandler = (e) => {
@@ -44,7 +45,7 @@ export default function CreateCloudWords() {
 
   React.useEffect(() => {
     console.log('currentpresent 2 ======>', currentpresent);
-    if (state) navigate(`/${currentpresent.payload.id}/${currentpresent.payload.pincode}`);
+    if (state) navigate(`/${currentpresent.id}/${currentpresent.pincode}`);
   }, [state]);
 
   return (
@@ -137,7 +138,7 @@ export default function CreateCloudWords() {
                 label="Введите вопрос"
               />
               <Button
-                // onClick={onlySaveHandler}
+                onClick={onlySaveHandler}
                 type="submit"
                 fullWidth
                 variant="contained"

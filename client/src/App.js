@@ -17,6 +17,7 @@ import { userCheck } from './Redux/actions/userActions';
 import FromAnswerCloud from './components/FormAnswer/FromAnswerCloud';
 import ModalQRcode from './components/ModalQR/ModalQRcode';
 import './styles/index.css';
+import AuthUser from './components/RequireAuth/AuthUser';
 
 function App() {
   const dispatch = useDispatch();
@@ -34,17 +35,18 @@ function App() {
 
   return (
     <div>
-      <MyNavBar />
+      {user.id
+      && <MyNavBar />}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/presents" element={<AllMyPresentation />} />
-        <Route path="/templates" element={<AllTemplates />} />
-        <Route path="/template/:id" element={<ShowCloud />} />
-        <Route path="/template" element={<CreateCloudWords />} />
-        <Route path="/pincode" element={<FromAnswerCloud />} />
-        <Route path="/qr" element={<ModalQRcode />} />
+        <Route path="/presents" element={<AuthUser><AllMyPresentation /></AuthUser>} />
+        <Route path="/templates" element={<AuthUser><AllTemplates /></AuthUser>} />
+        <Route path="/:id/:template" element={(<AuthUser><ShowCloud /></AuthUser>)} />
+        <Route path="/:template" element={<AuthUser><CreateCloudWords /></AuthUser>} />
+        <Route path="/pincode" element={<AuthUser><FromAnswerCloud /></AuthUser>} />
+        <Route path="/qr" element={<AuthUser><ModalQRcode /></AuthUser>} />
       </Routes>
     </div>
   );

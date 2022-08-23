@@ -7,7 +7,7 @@ import {
   takeEvery,
 } from 'redux-saga/effects';
 import { eventChannel, END } from 'redux-saga';
-import { SET_WS } from '../types';
+import { GET_WORDS, SET_WORDS, SET_WS } from '../types';
 
 function createSocketChannel(socket, action) {
   return eventChannel((emit) => {
@@ -55,12 +55,27 @@ function createWebSocketConnection() {
 //   }
 // }
 
+function* getUserWords(socket) {
+  while (true) {
+    const words = yield take(GET_WORDS);
+    socket.send(JSON.stringify(words));
+  }
+}
+
+function* setUserWords(socket) {
+  while (true) {
+    const words = yield take(SET_WORDS);
+    socket.send(JSON.stringify(words));
+  }
+}
+
 function* chatWatcer(action) {
   const socket = yield call(createWebSocketConnection);
   const socketChannel = yield call(createSocketChannel, socket, action);
 
   // yield fork(userMessage, socket);
-  // yield fork(getUserMessages, socket);
+  yield fork(getUserWords, socket);
+  yield fork(setUserWords, socket);
 
   while (true) {
     try {

@@ -8,31 +8,44 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import { TagCloud } from 'react-tagcloud';
 import './CreateCloudWords.nodule.css';
 import { Container } from '@mui/system';
 import PersonIcon from '@mui/icons-material/Person';
 import { Divider } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { presentAdd, presentAddState } from '../../Redux/actions/currentPresentActions';
 
 const theme = createTheme();
 
 export default function CreateCloudWords() {
-  const data = [
-    { value: 'Повтор', count: 1 },
-    { value: 'Судоку', count: 1 },
-    { value: 'React', count: 5 },
-    { value: 'Чекпоинт', count: 2 },
-    { value: 'Антон', count: 33 },
-    { value: 'Киты', count: 18 },
-    { value: 'Стендап', count: 25 },
-    { value: 'Гоша', count: 12 },
-    { value: 'Javascript', count: 10 },
-    { value: 'Express', count: 22 },
-    { value: 'Настолки', count: 29 },
-    { value: 'Саша', count: 21 },
-    { value: 'Пятница', count: 18 },
-    { value: 'npm i', count: 4 },
-  ];
+  const type = useSelector((state) => state.type);
+  const currentpresent = useSelector((state) => state.currentpresent);
+  const state = useSelector((state1) => state1.state);
+
+  const navigate = useNavigate();
+  console.log('currentpresent 1 ======>', currentpresent);
+  const dispatch = useDispatch();
+
+  const [input, setInput] = React.useState({ name: '', question: '', type });
+
+  const inputHandler = (e) => {
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const onlySaveHandler = (e) => {
+    e.preventDefault();
+    dispatch(presentAdd(input));
+  };
+
+  const saveAndShowHandler = (e) => {
+    e.preventDefault();
+    dispatch(presentAddState(input));
+  };
+
+  React.useEffect(() => {
+    console.log('currentpresent 2 ======>', currentpresent);
+    if (state) navigate(`/${currentpresent.payload.id}/${currentpresent.payload.pincode}`);
+  }, [state]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,20 +85,6 @@ export default function CreateCloudWords() {
             С чем у вас ассоциируется Эльбрус?
 
           </Typography>
-
-          <TagCloud
-            minSize={15}
-            maxSize={40}
-            tags={data}
-            className="simple-cloud"
-            colorOptions={{
-              luminosity: 'light',
-            }}
-            style={{
-              textAlign: 'center',
-              mr: 3
-            }}
-          />
           <Container id="container3">
             <Typography
               id="bottomText"
@@ -117,38 +116,51 @@ export default function CreateCloudWords() {
             <Typography component="h1" variant="h5" id="text">
               Создание презентации
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+
+            <Box onSubmit={onlySaveHandler} component="form" noValidate sx={{ mt: 1 }}>
               <TextField
+                name="name"
+                onChange={inputHandler}
+                value={input.name}
                 margin="normal"
                 label="Имя презентации"
                 required
                 fullWidth
               />
               <TextField
+                name="question"
+                onChange={inputHandler}
+                value={input.question}
                 margin="normal"
                 required
                 fullWidth
                 label="Введите вопрос"
               />
               <Button
+                // onClick={onlySaveHandler}
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3, mb: 2, backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }
+                }}
               >
                 Добавить и сохранить
               </Button>
-              <Button
-                type="submit"
-                // fullWidth
-                variant="contained"
-                sx={{ mt: 25, mb: 2 }}
-                id="btn2"
-                startIcon={<PlayCircleOutlineIcon fontSize="large" />}
-              >
-                <Typography id="begin">Начать презентацию</Typography>
-              </Button>
             </Box>
+            <Button
+              type="submit"
+              fullWidth
+              onClick={saveAndShowHandler}
+              variant="outlined"
+              sx={{
+                mt: 25, mb: 2, backgroundColor: 'white', color: '#008964', height: '100px'
+              }}
+              id="btn2"
+              startIcon={<PlayCircleOutlineIcon />}
+            >
+              <Typography id="begin">Начать презентацию</Typography>
+            </Button>
           </Box>
         </Grid>
       </Grid>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,10 +15,14 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import addType from '../../Redux/actions/typeAction';
 
 const tiers = [
   {
     title: 'Шаблон 1',
+    type: '1',
     color: 'red',
     backgroundImage: 'https://miro.medium.com/max/1400/1*uhU09i05wLx3sztM2mtT0g.gif',
     description: [
@@ -27,10 +32,11 @@ const tiers = [
       'тут что-то написано',
     ],
     buttonText: 'Выбрать шаблон',
-    buttonVariant: 'outlined',
+    buttonVariant: 'contained',
   },
   {
     title: 'Шаблон 2',
+    type: 'wordscloud',
     subheader: 'Облако слов',
     backgroundImage: 'https://community.wolfram.com/c/portal/getImageAttachment?filename=ezgif-284582628.gif&userId=11733',
     color: 'blue',
@@ -42,9 +48,11 @@ const tiers = [
     ],
     buttonText: 'Выбрать шаблон',
     buttonVariant: 'contained',
+    backgroundColor: '#008964'
   },
   {
     title: 'Шаблон 3',
+    type: '3',
     price: '30',
     backgroundImage: 'https://cdn.dribbble.com/users/829077/screenshots/4634872/rate_emoji.gif',
     color: 'pink',
@@ -55,11 +63,17 @@ const tiers = [
       'тут что-то написано',
     ],
     buttonText: 'Выбрать шаблон',
-    buttonVariant: 'outlined',
+    buttonVariant: 'contained',
   },
 ];
 
 export default function AllTemplates() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handlerTypeNavigate = (typever) => {
+    dispatch(addType(typever));
+    navigate(`/${typever}`);
+  };
   return (
     <>
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 3, pb: 6 }}>
@@ -145,7 +159,19 @@ export default function AllTemplates() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button
+                    onClick={() => {
+                      // console.log('dispatch(addType(tier.type))---->', tier.type);
+                      dispatch(addType(tier.type));
+                      // console.log(`navigate(/${tier.type})---->`);
+                      navigate(`/${tier.type}`);
+                    }}
+                    fullWidth
+                    variant={tier.buttonVariant}
+                    sx={{
+                      backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }, color: 'white'
+                    }}
+                  >
                     {tier.buttonText}
                   </Button>
                 </CardActions>

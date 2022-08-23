@@ -82,7 +82,7 @@ export default function CreateCloudWords() {
               mb: 10
             }}
           >
-            С чем у вас ассоциируется Эльбрус?
+            {input.question}
 
           </Typography>
           <Container id="container3">

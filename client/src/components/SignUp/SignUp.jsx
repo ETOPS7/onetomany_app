@@ -78,7 +78,7 @@ export default function SignUp() {
                   fullWidth
                   id="lastName"
                   label="Фамилия"
-                  name="lastname"
+                  name="lastName"
                   autoComplete="family-name"
                 />
               </Grid>

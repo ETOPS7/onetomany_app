@@ -67,8 +67,6 @@ export default function FromAnswerCloud() {
     };
   }, [ws]);
 
-  // console.log('Has been sent: ', hasBeenSent);
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xl">

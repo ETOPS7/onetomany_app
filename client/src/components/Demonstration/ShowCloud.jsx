@@ -23,6 +23,10 @@ export default function ShowCloud() {
   useEffect(() => {
     // dispatch({ type: 'GET_WORDS', payload: currentpresent.payload.id });
     dispatch({ type: 'SET_ROOM', payload: currentpresent.id });
+
+    // СЛЕТАЮТ ДАННЫЕ ПО ПРЕЗЕ ПРИ ДОБАВЛЕНИИ СЛОВА,
+    // СЛОВА ДОБАВЛЯЮТСЯ ВСЕ ОК,
+    // НО ВОПРОС СО СТР ПРЕДСТАВЛЕНИЯ СЛЕТАЕТ!!!
     return () => {
       dispatch({ type: 'SET_ROOM', payload: null });
       dispatch({

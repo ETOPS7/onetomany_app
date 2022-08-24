@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import { Grid, IconButton, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import {
   DataGrid,
@@ -39,27 +43,25 @@ function RenderDate(props) {
   }, [hasFocus]);
 
   return (
-    <strong>
-      {/* {value?.getFullYear() ?? ''} */}
-      <Button
-        component="button"
-        ref={buttonElement}
-        touchRippleRef={rippleRef}
-        variant="contained"
-        size="small"
-        style={{ marginLeft: 16 }}
-        // Remove button from tab sequence when cell does not have focus
-        tabIndex={hasFocus ? 0 : -1}
-        onKeyDown={(event) => {
-          if (event.key === ' ') {
-            // Prevent key navigation when focus is on button
-            event.stopPropagation();
-          }
-        }}
-      >
-        PLAY
-      </Button>
-    </strong>
+
+    <IconButton
+      component="button"
+      ref={buttonElement}
+      touchRippleRef={rippleRef}
+      variant="contained"
+      size="small"
+      sx={{ fontSize: 'large', ml: '1rem' }}
+      // Remove button from tab sequence when cell does not have focus
+      tabIndex={hasFocus ? 0 : -1}
+      onKeyDown={(event) => {
+        if (event.key === ' ') {
+          // Prevent key navigation when focus is on button
+          event.stopPropagation();
+        }
+      }}
+    >
+      <PlayCircleFilledIcon />
+    </IconButton>
   );
 }
 
@@ -121,6 +123,7 @@ const initialRows = [
 export default function AllMyPresentations() {
   const presents = useSelector((state) => state.presents);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   React.useEffect(() => {
     if (!presents.length) {
       dispatch(allPresent());
@@ -130,7 +133,7 @@ export default function AllMyPresentations() {
   /* const [rowModesModel, setRowModesModel] = React.useState({}); */
 
   const handleAddRow = () => {
-    setRows((prevRows) => [...prevRows, createRandomRow()]);
+    navigate('/templates');
   };
 
   const handleDeleteClick = (id) => () => {
@@ -144,40 +147,42 @@ export default function AllMyPresentations() {
       headerName: 'PLAY',
       headerClassName: 'super-app-theme--header',
       headerAlign: 'center',
-      width: 150,
+      align: 'center',
+      // width: 150,
+      flex: 1,
       renderCell: RenderDate,
     },
     {
       field: 'name',
       headerName: 'Name',
       headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
-      width: 180,
+      // width: 180,
+      flex: 1,
       editable: true,
     },
     {
       field: 'type_template',
       headerName: 'Type Template',
       headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
-      width: 180,
+      // width: 180,
+      flex: 1,
       editable: true,
     },
     {
       field: 'user',
       headerName: 'Name Admin',
       headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
-      width: 180,
+      // width: 180,
+      flex: 1,
       editable: true,
     },
     {
       field: 'createdAt',
       headerName: 'Date Created',
       headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
       type: 'date',
-      width: 180,
+      // width: 180,
+      flex: 1,
       editable: true,
     },
     {
@@ -185,8 +190,8 @@ export default function AllMyPresentations() {
       type: 'actions',
       headerName: 'Actions',
       headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
-      width: 100,
+      // width: 100,
+      flex: 1,
       cellClassName: 'actions',
       getActions: ({ id }) => [
         <GridActionsCellItem
@@ -201,51 +206,90 @@ export default function AllMyPresentations() {
   ];
 
   return (
-    <Box sx={{
-      height: 100,
-      width: '60%',
-      margin: 'auto',
-      /* '& .super-app-theme--header': {
-        backgroundColor: 'rgba(255, 7, 0, 0.55)',
-      }, */
-    }}
-    >
-      <Stack direction="row" spacing={1}>
-        <Button size="small" onClick={handleAddRow}>
-          Add a row
-        </Button>
-      </Stack>
+    <>
       <Box
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-end"
+      >
+        <Box sx={{
+          display: 'flex', flexDirection: 'row-reverse', margin: '4rem 12rem'
+        }}
+        >
+          <Button
+            size="large"
+            variant="contained"
+            startIcon={<AddIcon />}
+            sx={{
+              minWidth: 'max-content', backgroundColor: '#3bba92', color: 'white', '&:hover': { backgroundColor: '#f9d423' }
+            }}
+            disableElevation
+            onClick={handleAddRow}
+          >
+            Создать презентацию
+          </Button>
+        </Box>
+      </Box>
+
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          height: 525,
-          width: '100%',
-          '& .actions': {
-            color: 'text.secondary',
-          },
-          '& .textPrimary': {
-            color: 'text.primary',
+          height: 100,
+          width: '60%',
+          margin: 'auto',
+          '& .super-app-theme--header': {
+            backgroundColor: '#3bba92', color: 'white'
           },
         }}
       >
-        <DataGrid
-          sx={{
-            boxShadow: 2,
-            border: 2,
-            borderColor: 'primary.light',
-            '& .MuiDataGrid-cell:hover': {
-              color: 'primary.main',
-            },
-          }}
-          rows={presents}
-          columns={columns}
-          /* componentsProps={{
-            toolbar: { setRows },
-          }} */
-          experimentalFeatures={{ newEditingApi: true }}
-        />
-      </Box>
-    </Box>
+        <Typography sx={{
+          mt: '-38px',
+          mb: '13px',
+          color: '#008964',
+          marginRight: 'auto',
+          fontSize: '24px'
+        }}
+        >
+          Мои презентации:
+        </Typography>
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              height: 525,
+              width: '100%',
+              '& .actions': {
+                color: '#3bba92',
+              },
+              '& .textPrimary': {
+                color: '#3bba92',
+              },
+            }}
+          >
+            <DataGrid
+              sx={{
+                boxShadow: 2,
+                border: 2,
+                borderColor: '#3bba92',
+                '& .MuiDataGrid-cell:hover': {
+                  color: '#3bba92',
+                },
+              }}
+              rows={presents}
+              columns={columns}
+              /* componentsProps={{
+              toolbar: { setRows },
+            }} */
+              experimentalFeatures={{ newEditingApi: true }}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+    </>
   );
 }

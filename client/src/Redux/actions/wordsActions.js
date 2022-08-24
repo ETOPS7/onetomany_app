@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { ADD_WORD, GET_WORDS, SET_WORDS } from '../types';
+import {
+  ADD_WORD, CHANGE_STATE, GET_WORDS, SET_WORDS
+} from '../types';
 
 const port = process.env.REACT_APP_SERVER_PATH || 'http://localhost:3001';
 
@@ -26,6 +28,9 @@ export const addWord = (payload) => (dispatch) => {
   axios.post(`${port}/api/admin/word`, payload)
     .then((res) => {
       dispatch({ type: ADD_WORD, payload });
+      dispatch({
+        type: CHANGE_STATE,
+      });
     })
     .catch(
       (err) => console.log('err')

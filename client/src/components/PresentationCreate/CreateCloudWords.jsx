@@ -22,6 +22,7 @@ export default function CreateCloudWords() {
   const type = useSelector((state) => state.type);
   const currentpresent = useSelector((state) => state.currentpresent);
   const state = useSelector((state1) => state1.state);
+  const port = process.env.REACT_APP_SERVER_PATH;
 
   const navigate = useNavigate();
   console.log('currentpresent 1 ======>', currentpresent);
@@ -35,6 +36,7 @@ export default function CreateCloudWords() {
   const onlySaveHandler = (e) => {
     e.preventDefault();
     dispatch(presentAdd(input));
+    navigate('/presents');
   };
 
   const saveAndShowHandler = (e) => {
@@ -44,7 +46,7 @@ export default function CreateCloudWords() {
 
   React.useEffect(() => {
     console.log('currentpresent 2 ======>', currentpresent);
-    if (state) navigate(`/${currentpresent.payload.id}/${currentpresent.payload.pincode}`);
+    if (state && currentpresent) navigate(`/${currentpresent.id}/${currentpresent.pincode}`);
   }, [state]);
 
   return (
@@ -62,14 +64,16 @@ export default function CreateCloudWords() {
             backgroundPosition: 'center',
           }}
         >
-          <Typography id="url">
+          <Typography id="url" variant="h2">
             Перейдите по ссылке
             {' '}
-            <strong>www.onetomany.ru</strong>
+            <strong>{port}</strong>
             {' '}
             и введите код
             {' '}
-            <strong>451241</strong>
+            <strong>
+              *XXXXX*
+            </strong>
           </Typography>
           <Divider />
 
@@ -86,20 +90,9 @@ export default function CreateCloudWords() {
 
           </Typography>
           <Container id="container3">
-            <Typography
-              id="bottomText"
-              variant="h6"
-              sx={{
-                fontWeight: 300,
-                textAlign: 'center',
-                mt: 10
-              }}
-            >
-              Пользователи онлайн:
-            </Typography>
             <Typography id="bottomText" sx={{ color: 'black', textAlign: 'center' }}>
               <PersonIcon id="icon" fontSize="large" sx={{ paddingTop: '5px' }} viewBox="0 -7.5 24 27" />
-              12
+              0
             </Typography>
           </Container>
         </Grid>
@@ -137,7 +130,7 @@ export default function CreateCloudWords() {
                 label="Введите вопрос"
               />
               <Button
-                // onClick={onlySaveHandler}
+                onClick={onlySaveHandler}
                 type="submit"
                 fullWidth
                 variant="contained"

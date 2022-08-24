@@ -43,10 +43,10 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/presents" element={<AuthUser><AllMyPresentation /></AuthUser>} />
         <Route path="/templates" element={<AuthUser><AllTemplates /></AuthUser>} />
-        <Route path="/:id/:template" element={(<AuthUser><ShowCloud /></AuthUser>)} />
+        <Route path="/:id/:template/:pincode" element={<FromAnswerCloud />} />
+        <Route path="/:id/:pincode" element={(<AuthUser><ShowCloud /></AuthUser>)} />
         <Route path="/:template" element={<AuthUser><CreateCloudWords /></AuthUser>} />
-        <Route path="/pincode" element={<AuthUser><FromAnswerCloud /></AuthUser>} />
-        <Route path="/qr" element={<AuthUser><ModalQRcode /></AuthUser>} />
+        {/* <Route path="/qr" element={<AuthUser><ModalQRcode /></AuthUser>} /> */}
       </Routes>
     </div>
   );

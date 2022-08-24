@@ -24,6 +24,15 @@ wss.on('connection', (ws, request, wsMap) => {
           room: payload,
           ws,
         });
+        const count = Array.from(wsMap.values()).filter((el) => el.room === payload);
+        for (const [, wsClient] of wsMap) {
+          if (wsClient.room === payload) {
+            wsClient.ws.send(JSON.stringify(
+              { type: 'SET_COUNTER', payload: count.length },
+            ));
+          }
+        }
+
         break;
 
       default:
@@ -33,6 +42,16 @@ wss.on('connection', (ws, request, wsMap) => {
 
   ws.on('close', () => {
     wsMap.delete(request.session.id);
+    // const count = Array.from(wsMap.values()).filter((el) => el.room === payload);
+    // const { room } = wsMap.get(request.session.id);
+    // console.log('wsMap.get(request.session.id)  ', room);
+    // for (const [, wsClient] of wsMap) {
+    //   if (wsClient.room === payload) {
+    //     wsClient.ws.send(JSON.stringify(
+    //       { type: 'SET_COUNTER', payload: count.length },
+    //     ));
+    //   }
+    // }
   });
 });
 

@@ -17,9 +17,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../Redux/actions/userActions';
 
-const pages = ['Форма ответа', 'Презентации', 'Шаблоны', 'Облако слов', 'Создать презентацию', 'Регистрация', 'Авторизация'];
+const pages = ['Все презентации', 'Создать презентацию', 'Регистрация', 'Авторизация'];
 const settings = ['Выход', 'О проекте'];
-const urls = ['/pincode', '/presents', '/templates', '/:id/:template', '/template', 'signup', 'signin'];
+const urls = ['/presents', '/templates', 'signup', 'signin'];
 
 function MyNavBar() {
   const user = useSelector((state) => state.user);

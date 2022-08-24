@@ -12,3 +12,5 @@ export const ADD_WORD = 'ADD_WORD';
 export const CHANGE_STATE = 'CHANGE_STATE';
 export const CHECK_PINCODE = 'CHECK_PINCODE';
 export const SET_TRUE_PINCODE = 'SET_TRUE_PINCODE';
+export const GET_COUNTER = 'GET_COUNTER';
+export const SET_COUNTER = 'SET_COUNTER';

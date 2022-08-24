@@ -14,13 +14,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import SendIcon from '@mui/icons-material/Send';
-import SaveIcon from '@mui/icons-material/Save';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import { addWord } from '../../Redux/actions/wordsActions';
+import { socketInit } from '../../Redux/actions/wsActions';
 
 const theme = createTheme();
 
 export default function FromAnswerCloud() {
   const crprt = useSelector((state) => state.currentpresent);
+  const ws = useSelector((state) => state.ws);
   const status = useSelector((state) => state.state);
   // console.log('currentpresent 5 ======>', crprt);
   // console.log('status 5 ======>', status);
@@ -30,6 +32,7 @@ export default function FromAnswerCloud() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log('data---->', data.set);
     dispatch(
       addWord({
         word: data.get('word'),
@@ -51,11 +54,20 @@ export default function FromAnswerCloud() {
       }, 2000);
       setTimeout(() => {
         setHasBeenSent(false);
-      }, 4000);
+      }, 8000);
     }
   }, [status]);
+  React.useEffect(() => {
+    dispatch(socketInit());
+  }, []);
+  React.useEffect(() => {
+    if (ws) dispatch({ type: 'SET_ROOM', payload: crprt.id });
+    return () => {
+      dispatch({ type: 'SET_ROOM', payload: null });
+    };
+  }, [ws]);
 
-  console.log('Has been sent: ', hasBeenSent);
+  // console.log('Has been sent: ', hasBeenSent);
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,7 +102,7 @@ export default function FromAnswerCloud() {
               loading={status}
               loadingPosition="end"
               variant="contained"
-              endIcon={hasBeenSent ? <SaveIcon /> : <SendIcon />}
+              endIcon={hasBeenSent ? <AddTaskIcon /> : <SendIcon />}
               sx={{
                 mt: 3, mb: 2, backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }
               }}

@@ -13,21 +13,44 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { addWord } from '../../Redux/actions/wordsActions';
 
 const theme = createTheme();
 
 export default function FromAnswerCloud() {
+  const [input, setInput] = useState([]);
+  const [error, setError] = useState(false);
   const currentpresent = useSelector((state) => state.currentpresent);
+
+  function checkWord(arr) {
+    const res = arr.join(' ').split(' ');
+    if (res.length === 1) {
+      return true;
+    }
+    return false;
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    dispatchEvent(
-      addWord({
-        word: data.get('word'),
-        present_id: currentpresent.payload.id
-      })
-    );
+    if (!checkWord(input)) {
+      setError(true);
+      console.log('error');
+    } else {
+      dispatchEvent(
+        addWord({
+          word: data.get('word'),
+          present_id: currentpresent.payload.id
+        })
+      );
+      setInput('');
+    }
+  };
+
+  const changeHandler = (e) => {
+    setInput((prev) => ([e.target.value]));
+    console.log(input);
   };
 
   return (
@@ -46,16 +69,37 @@ export default function FromAnswerCloud() {
             С чем у вас ассоциируется Эльбрус?
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="word"
-              label="Введите ваш ответ"
-              name="word"
-              autoComplete="word"
-              autoFocus
-            />
+            {error
+              ? (
+                <>
+                  <TextField
+                    margin="normal"
+                    required
+                    error
+                    fullWidth
+                    id="word"
+                    label="Некорректные данные"
+                    name="word"
+                    onChange={changeHandler}
+                    autoComplete="word"
+                    autoFocus
+                  />
+                  <Typography sx={{ color: '#b71c1c' }}>*в поле ответа можно ввести только одно слово</Typography>
+                </>
+              )
+              : (
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="word"
+                  label="Введите ваш ответ"
+                  name="word"
+                  onChange={changeHandler}
+                  autoComplete="word"
+                  autoFocus
+                />
+              )}
             <Button
               type="submit"
               fullWidth

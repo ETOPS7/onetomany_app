@@ -86,18 +86,7 @@ export default function CreateCloudWords() {
 
           </Typography>
           <Container id="container3">
-            <Typography
-              id="bottomText"
-              variant="h6"
-              sx={{
-                fontWeight: 300,
-                textAlign: 'center',
-                mt: 10
-              }}
-            >
-              Пользователи онлайн:
-            </Typography>
-            <Typography id="bottomText" sx={{ color: 'black', textAlign: 'center' }}>
+            <Typography id="bottomText" sx={{ color: 'black', textAlign: 'center', fontSize: '23px' }}>
               <PersonIcon id="icon" fontSize="large" sx={{ paddingTop: '5px' }} viewBox="0 -7.5 24 27" />
               12
             </Typography>

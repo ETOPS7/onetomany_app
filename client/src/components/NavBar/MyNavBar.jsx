@@ -210,6 +210,9 @@ function MyNavBar() {
                         if (setting === 'Выход') {
                           logoutHandler();
                         }
+                        if (setting === 'О проекте') {
+                          navigate('/about');
+                        }
                       }}
                     >
                       {setting}
@@ -223,6 +226,9 @@ function MyNavBar() {
                         onClick={() => {
                           if (setting === 'Выход') {
                             logoutHandler();
+                          }
+                          if (setting === 'О проекте') {
+                            navigate('/about');
                           }
                         }}
                       >

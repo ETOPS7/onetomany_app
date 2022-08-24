@@ -27,6 +27,8 @@ export default function ShowCloud() {
     // СЛЕТАЮТ ДАННЫЕ ПО ПРЕЗЕ ПРИ ДОБАВЛЕНИИ СЛОВА,
     // СЛОВА ДОБАВЛЯЮТСЯ ВСЕ ОК,
     // НО ВОПРОС СО СТР ПРЕДСТАВЛЕНИЯ СЛЕТАЕТ!!!
+  }, [words]);
+  useEffect(() => {
     return () => {
       dispatch({ type: 'SET_ROOM', payload: null });
       dispatch({
@@ -37,7 +39,7 @@ export default function ShowCloud() {
         type: 'CHANGE_STATE',
       });
     };
-  }, [words]);
+  }, []);
   console.log('words ======>', words);
   const navigate = useNavigate();
   const handleClick = () => {

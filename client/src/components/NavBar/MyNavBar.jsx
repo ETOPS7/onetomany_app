@@ -49,7 +49,7 @@ function MyNavBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: '#3bba92' }}>
       <Container maxWidth="xl" sx={{ backgroundColor: '#3bba92' }}>
         <Toolbar disableGutters sx={{ backgroundColor: '#3bba92' }}>
           <CheckBoxIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -13,12 +13,19 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import SendIcon from '@mui/icons-material/Send';
+import SaveIcon from '@mui/icons-material/Save';
 import { addWord } from '../../Redux/actions/wordsActions';
 
 const theme = createTheme();
 
 export default function FromAnswerCloud() {
-  const currentpresent = useSelector((state) => state.currentpresent);
+  const crprt = useSelector((state) => state.currentpresent);
+  const status = useSelector((state) => state.state);
+  // console.log('currentpresent 5 ======>', crprt);
+  // console.log('status 5 ======>', status);
+  const [loading, setLoading] = React.useState(false);
+  const [hasBeenSent, setHasBeenSent] = React.useState(false);
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,10 +33,29 @@ export default function FromAnswerCloud() {
     dispatch(
       addWord({
         word: data.get('word'),
-        present_id: currentpresent.id
+        present_id: crprt.id
       })
     );
   };
+  const handleClick = () => {
+    setLoading(true);
+  };
+
+  React.useEffect(() => {
+    if (status) {
+      setTimeout(() => {
+        setHasBeenSent(true);
+        dispatch({
+          type: 'CHANGE_STATE',
+        });
+      }, 2000);
+      setTimeout(() => {
+        setHasBeenSent(false);
+      }, 4000);
+    }
+  }, [status]);
+
+  console.log('Has been sent: ', hasBeenSent);
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,7 +70,7 @@ export default function FromAnswerCloud() {
           }}
         >
           <Typography component="h1" variant="h5">
-            С чем у вас ассоциируется Эльбрус?
+            {crprt.question}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -57,17 +83,26 @@ export default function FromAnswerCloud() {
               autoComplete="word"
               autoFocus
             />
-            <Button
+            <LoadingButton
               type="submit"
               fullWidth
+              onClick={handleClick}
+              loading={status}
+              loadingPosition="end"
               variant="contained"
+              endIcon={hasBeenSent ? <SaveIcon /> : <SendIcon />}
               sx={{
                 mt: 3, mb: 2, backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }
               }}
             >
               ОТВЕТИТЬ
-            </Button>
+            </LoadingButton>
           </Box>
+          {/* {status && (
+            <Typography component="h1" variant="h5">
+              Ваш ответ принят!
+            </Typography>
+          )} */}
         </Box>
       </Container>
     </ThemeProvider>

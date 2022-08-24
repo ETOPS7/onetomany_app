@@ -64,13 +64,13 @@ router.route('/checkpincode').post(async (req, res) => {
       },
     ],
   });
-  console.log("router.route('/checkpincode') -- present-->", present);
+  // console.log("router.route('/checkpincode') -- present-->", present);
   const { type } = jsonHalper(jsonHalper(present.Cloud_template).Type_template);
   const { question } = jsonHalper(present.Cloud_template);
 
   // for (const [, wsClient] of req.app.locals.ws) {
   // if (wsClient.room === present.id) {
-  console.log('type=====>', type);
+  // console.log('type=====>', type);
   res.json(jsonHalper({
     type,
     id: present.id,
@@ -85,7 +85,7 @@ router.route('/checkpincode').post(async (req, res) => {
 });
 
 router.route('/word').post(async (req, res) => {
-  console.log('size------------------------', req.app.locals.ws.size);
+  // console.log('size------------------------', req.app.locals.ws.size);
 
   const [curword, created] = await Result_word.findOrCreate({
     where: {
@@ -96,12 +96,16 @@ router.route('/word').post(async (req, res) => {
       count: 1,
     },
   });
-  console.log('created=======>', created);
   if (!created) {
     await curword.increment({ count: +1 });
     await curword.save();
   }
-  const allWords = await Result_word.findAll({ where: { present_id: curword.present_id } });
+  const allWords = await Result_word.findAll({
+    where: {
+      present_id: curword.present_id,
+    },
+    attributes: [['word', 'value'], 'count'],
+  });
 
   for (const [, wsClient] of req.app.locals.ws) {
     // if (wsClient.room === req.body.present_id) {

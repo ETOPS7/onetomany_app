@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { ADD_PRESENT, SET_TRUE_PINCODE, CHANGE_STATE, CHECK_PINCODE } from '../types';
+import {
+  ADD_PRESENT, SET_TRUE_PINCODE, CHANGE_STATE, CHECK_PINCODE
+} from '../types';
 
 const port = process.env.REACT_APP_SERVER_PATH || 'http://localhost:3001';
 

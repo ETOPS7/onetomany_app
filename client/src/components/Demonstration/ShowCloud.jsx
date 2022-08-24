@@ -9,6 +9,7 @@ import './ShowCloud.module.css';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function ShowCloud() {
   const currentpresent = useSelector((state) => state.currentpresent);
@@ -20,12 +21,19 @@ export default function ShowCloud() {
     // dispatch({ type: 'GET_WORDS', payload: currentpresent.payload.id });
     dispatch({ type: 'SET_ROOM', payload: currentpresent.id });
   }, [words]);
+  console.log('words ======>', words);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    // dispatch()
+    navigate('/presents');
+  };
 
   return (
     <Container id="container">
       <Container id="container1">
         <Button
-          id="btn"
+          onSubmit={handleClick}
+          id="submit"
           variant="outlined"
           sx={{
             mt: 10,
@@ -45,7 +53,7 @@ export default function ShowCloud() {
           и введите код
           {' '}
           <strong>
-            451113
+            { currentpresent.pincode}
           </strong>
         </Typography>
         <Typography
@@ -58,7 +66,7 @@ export default function ShowCloud() {
             mb: 10
           }}
         >
-          С чем у вас ассоциируется Эльбрус?
+          {currentpresent.question}
         </Typography>
       </Container>
       <Box id="container2" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

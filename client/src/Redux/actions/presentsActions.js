@@ -6,7 +6,7 @@ const port = process.env.REACT_APP_SERVER_PATH || 'http://localhost:3001';
 // для axios нужно передать тип презентации и ее id
 // еще не работает!!!
 export const deletePresent = (payload) => (dispatch) => {
-  axios.delete(`${port}/api/admin/${payload.type}/${payload.id}`)
+  axios.delete(`${port}/api/admin/${payload.id}`)
     .then((res) => dispatch({ type: DELETE_PRESENT, payload }))
     .catch((err) => console.log('err'));
 };

@@ -1,18 +1,12 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
 import {
-  GridRowModes,
   DataGrid,
-  GridToolbarContainer,
   GridActionsCellItem,
 } from '@mui/x-data-grid';
 import {
@@ -20,8 +14,8 @@ import {
   randomTraderName,
   randomUpdatedDate,
   randomId,
-  useDemoData,
 } from '@mui/x-data-grid-generator';
+import { allPresent, deletePresent } from '../../Redux/actions/presentsActions';
 
 let idCounter = 0;
 const createRandomRow = () => {
@@ -124,16 +118,24 @@ const initialRows = [
   },
 ];
 
-export default function FullFeaturedCrudGrid() {
-  const [rows, setRows] = React.useState(initialRows);
-  const [rowModesModel, setRowModesModel] = React.useState({});
+export default function AllMyPresentations() {
+  const presents = useSelector((state) => state.presents);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    if (!presents.length) {
+      dispatch(allPresent());
+    }
+  }, []);
+  const [rows, setRows] = React.useState(presents);
+  /* const [rowModesModel, setRowModesModel] = React.useState({}); */
 
   const handleAddRow = () => {
     setRows((prevRows) => [...prevRows, createRandomRow()]);
   };
 
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    dispatch(deletePresent({ id }));
+    /* setRows(rows.filter((row) => row.id !== id)); */
   };
 
   const columns = [
@@ -162,7 +164,7 @@ export default function FullFeaturedCrudGrid() {
       editable: true,
     },
     {
-      field: 'name_admin',
+      field: 'user',
       headerName: 'Name Admin',
       headerClassName: 'super-app-theme--header',
       headerAlign: 'center',
@@ -170,7 +172,7 @@ export default function FullFeaturedCrudGrid() {
       editable: true,
     },
     {
-      field: 'dateCreated',
+      field: 'createdAt',
       headerName: 'Date Created',
       headerClassName: 'super-app-theme--header',
       headerAlign: 'center',
@@ -236,11 +238,11 @@ export default function FullFeaturedCrudGrid() {
               color: 'primary.main',
             },
           }}
-          rows={rows}
+          rows={presents}
           columns={columns}
-          componentsProps={{
+          /* componentsProps={{
             toolbar: { setRows },
-          }}
+          }} */
           experimentalFeatures={{ newEditingApi: true }}
         />
       </Box>

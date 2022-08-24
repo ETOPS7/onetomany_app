@@ -27,6 +27,7 @@ router.route('/presents').get(async (req, res) => {
       },
     ],
   });
+  console.log('=========================================ALL PRESENTS:', presents);
 
   // console.log('bak allpresents ===>', JSON.parse(JSON.stringify(presents)));
   // console.log('presents.Cloud_template',
@@ -96,15 +97,6 @@ router.route('/:template/:id').get(async (req, res) => {
 });
 
 //! удаление презентаци на странице со списком всех презентаций
-router.route('/:id/:template').delete(async (req, res) => {
-  try {
-    await Presentation.destroy({ where: { id: req.params.id } });
-    return res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
-});
 
 router.route('/word').post(async (req, res) => {
   console.log('size------------------------', req.app.locals.ws.size);
@@ -135,6 +127,16 @@ router.route('/word').post(async (req, res) => {
 
   const allWords = await Result_word.findAll({ where: { present_id: currentword.present_id } });
   req.app.locals.ws.words = allWords;
+});
+
+router.route('/:id').delete(async (req, res) => {
+  try {
+    await Presentation.destroy({ where: { id: req.params.id } });
+    return res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
 });
 
 module.exports = router;

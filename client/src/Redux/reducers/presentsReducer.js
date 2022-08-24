@@ -9,6 +9,7 @@ const presentsReducer = (state = [], action) => {
     case ADD_PRESENT:
       return [...state, payload];
     case DELETE_PRESENT:
+      console.log('----------------->>>>>', payload.id);
       return state.filter((el) => el.id !== payload.id);
     default:
       return state;

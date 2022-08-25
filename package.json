@@ -4,7 +4,9 @@
   "description": "ONETOMANY - that makes an easy to use Q&A and polling platform for live, remote or hybrid meetings, events, classes, and webinars.",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+
   },
   "author": "ONETOMANY",
   "license": "ISC",

@@ -21,7 +21,7 @@ import addType from '../../Redux/actions/typeAction';
 
 const tiers = [
   {
-    title: 'Шаблон 1',
+    title: 'Рейтинг',
     type: '1',
     color: 'red',
     backgroundImage: 'https://miro.medium.com/max/1400/1*uhU09i05wLx3sztM2mtT0g.gif',
@@ -35,9 +35,9 @@ const tiers = [
     buttonVariant: 'contained',
   },
   {
-    title: 'Шаблон 2',
+    title: 'Облако слов',
     type: 'wordscloud',
-    subheader: 'Облако слов',
+    subheader: '⭐⭐⭐',
     backgroundImage: 'https://community.wolfram.com/c/portal/getImageAttachment?filename=ezgif-284582628.gif&userId=11733',
     color: 'blue',
     description: [
@@ -51,7 +51,7 @@ const tiers = [
     backgroundColor: '#008964'
   },
   {
-    title: 'Шаблон 3',
+    title: 'Emoji',
     type: '3',
     price: '30',
     backgroundImage: 'https://cdn.dribbble.com/users/829077/screenshots/4634872/rate_emoji.gif',
@@ -76,21 +76,9 @@ export default function AllTemplates() {
   };
   return (
     <>
-      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 3, pb: 6 }}>
-        <Typography
-          component="h1"
-          variant="h2"
-          align="center"
-          color="text.primary"
-          gutterBottom
-          sx={{
-            fontSize: 40
-          }}
-        >
-          Выбор шаблона
-        </Typography>
+      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 5, pb: 6 }}>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          Тут можно выбрать шаблон для создания вашей презентации
+          Для создания презентации выберите шаблон
         </Typography>
       </Container>
       {/* End hero unit */}

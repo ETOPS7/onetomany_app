@@ -1,8 +1,9 @@
 /* eslint-disable max-len */
+import * as React from 'react';
 import {
-  Button,
-  Card,
-  CardContent, Container,
+  Button, Card,
+  CardContent,
+  Container,
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
@@ -13,9 +14,29 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Redirect from 'react-router';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
+import Modal from '@mui/material/Modal';
+import QRCode from 'react-qr-code';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  height: 500,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 2,
+};
 
 export default function ShowCloud() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const qrUrl = `${process.env.REACT_APP_SERVER_PATH}`;
   const port = process.env.REACT_APP_SERVER_PATH;
   const currentpresent = useSelector((state) => state.currentpresent);
   console.log('currentpresent 3 ======>', currentpresent);
@@ -69,6 +90,43 @@ export default function ShowCloud() {
           Выход
           <ExitToAppIcon />
         </Button>
+        <Button
+          onClick={handleOpen}
+          id="btn"
+          variant="outlined"
+          sx={{
+            mt: 10,
+            ml: '80%',
+            color: '#3bba92',
+            height: '50px',
+            width: '93px',
+            '& .MuiButton-outlinedPrimary': {
+              '& > fieldset': {
+                borderColor: '#3bba92',
+              },
+            },
+            // border: '#3bba92',
+            // '&:hover': { backgroundColor: 'none', color: 'white' },
+          }}
+        >
+          QR
+          <QrCode2Icon />
+        </Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <QRCode
+              value={qrUrl}
+              size={256}
+              style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+              viewBox="0 0 256 256"
+            />
+          </Box>
+        </Modal>
         <Typography id="url" variant="h2">
           Перейдите по ссылке
           {' '}

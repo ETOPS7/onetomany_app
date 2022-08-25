@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const gpc = require('generate-pincode');
 const {
-  Presentation, Cloud_template, Type_template, Result_word,
+  Presentation,
+  Cloud_template,
+  Type_template,
+  Result_word,
 } = require('../db/models');
 const jsonHalper = (string) => JSON.parse(JSON.stringify(string));
 
@@ -27,21 +30,28 @@ router.route('/presents').get(async (req, res) => {
       },
     ],
   });
-  console.log('=========================================ALL PRESENTS:', presents);
-
-  presents = presents.map((el) => {
-    const { type } = jsonHalper(jsonHalper(el.Cloud_template).Type_template);
-    return {
-      id: el.id,
-      name: el.name,
-      question: el.question,
-      user: user_name,
-      pincode: el.pincode,
-      createdAt: el.createdAt,
-      type,
-    };
-  });
-  res.json(jsonHalper(presents));
+  console.log(
+    '=========================================ALL PRESENTS:',
+    presents
+  );
+  console.log('presents all length', presents);
+  if (presents.length) {
+    presents = presents.map((el) => {
+      const { type } = jsonHalper(jsonHalper(el.Cloud_template).Type_template);
+      return {
+        id: el.id,
+        name: el.name,
+        question: el.question,
+        user: user_name,
+        pincode: el.pincode,
+        createdAt: el.createdAt,
+        type,
+      };
+    });
+    res.json(jsonHalper(presents));
+  } else {
+    res.json(jsonHalper(presents));
+  }
 });
 
 router.route('/checkpincode').post(async (req, res) => {
@@ -72,12 +82,14 @@ router.route('/checkpincode').post(async (req, res) => {
   // for (const [, wsClient] of req.app.locals.ws) {
   // if (wsClient.room === present.id) {
   // console.log('type=====>', type);
-  res.json(jsonHalper({
-    type,
-    id: present.id,
-    pincode: req.body.pincode,
-    question,
-  }));
+  res.json(
+    jsonHalper({
+      type,
+      id: present.id,
+      pincode: req.body.pincode,
+      question,
+    })
+  );
   // res.sendStatus(200);
   // } else {
   // res.sendStatus(400);
@@ -110,10 +122,12 @@ router.route('/word').post(async (req, res) => {
 
   for (const [, wsClient] of req.app.locals.ws) {
     // if (wsClient.room === req.body.present_id) {
-    wsClient.ws.send(JSON.stringify({
-      type: 'GET_WORDS',
-      payload: allWords,
-    }));
+    wsClient.ws.send(
+      JSON.stringify({
+        type: 'GET_WORDS',
+        payload: allWords,
+      })
+    );
     // }
   }
   res.sendStatus(200);
@@ -149,32 +163,36 @@ router.route('/:id/:template').delete(async (req, res) => {
 // создание презентации
 router.route('/:template').post(async (req, res) => {
   console.log('size------------------------', req.app.locals.ws.size);
-
-  //   const { template } = req.params;
   const pincode = gpc(5);
-  const present = await Presentation.create({
-    user_id: req.session.user.id,
-    name: req.body.name,
-    pincode,
-  });
-  const typetemplate = await Type_template.findOne({
-    where: { name: req.params.template },
-  });
-  Cloud_template.create({
-    present_id: present.id,
-    question: req.body.question,
-    type_id: typetemplate.id,
-  });
-  const OnePresent = {
-    id: present.id,
-    name: present.name,
-    question: req.body.question,
-    user: req.session.user.name,
-    pincode: present.pincode,
-    createdAt: present.createdAt,
-    type: req.params.template,
-  };
-  res.json(OnePresent);
+  try {
+    const present = await Presentation.create({
+      user_id: req.session.user.id,
+      name: req.body.name,
+      pincode,
+    });
+    const typetemplate = await Type_template.findOne({
+      where: { name: req.params.template },
+    });
+    Cloud_template.create({
+      present_id: present.id,
+      question: req.body.question,
+      type_id: typetemplate.id,
+    });
+    const OnePresent = {
+      id: present.id,
+      name: present.name,
+      question: req.body.question,
+      user: req.session.user.name,
+      pincode: present.pincode,
+      createdAt: present.createdAt,
+      type: req.params.template,
+    };
+    res.json(OnePresent);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(409);
+  }
+  //   const { template } = req.params;
 });
 
 // открытие конкретной презентации
@@ -211,7 +229,7 @@ router.route('/word').post(async (req, res) => {
           word: currentword.word,
           present_id: currentword.present_id,
         },
-      },
+      }
     );
     Result_word.save();
   } else {
@@ -222,7 +240,9 @@ router.route('/word').post(async (req, res) => {
     });
   }
 
-  const allWords = await Result_word.findAll({ where: { present_id: currentword.present_id } });
+  const allWords = await Result_word.findAll({
+    where: { present_id: currentword.present_id },
+  });
   req.app.locals.ws.words = allWords;
 });
 

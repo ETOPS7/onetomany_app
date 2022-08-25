@@ -47,8 +47,9 @@ export default function ShowCloud() {
   const navigate = useNavigate();
   const handleClick = () => {
     // dispatch()
-    // window.location = '/presents';
-    navigate('/presents');
+    window.location = '/presents';
+    // window.open('/presents');
+    // navigate('/presents');
   };
 
   return (

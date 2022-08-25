@@ -42,7 +42,7 @@ function App() {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/presents" element={<AuthUser><AllMyPresentation /></AuthUser>} />
+        <Route path="/presents" element={<AllMyPresentation />} />
         <Route path="/templates" element={<AuthUser><AllTemplates /></AuthUser>} />
         <Route path="/:id/:template/:pincode" element={<FromAnswerCloud />} />
         <Route path="/:id/:pincode" element={(<AuthUser><ShowCloud /></AuthUser>)} />

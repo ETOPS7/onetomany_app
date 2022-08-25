@@ -13,10 +13,10 @@ export const presentAdd = (input) => (dispatch) => {
     .post(`${port}/api/admin/${input.type}`, input)
     .then((res) => {
       // console.log('presentAdd actions --->', res.data);
-      // dispatch({
-      //   type: ADD_PRESENT,
-      //   payload: res.data,
-      // });
+      dispatch({
+        type: ADD_PRESENT,
+        payload: res.data,
+      });
     })
     .catch((err) => console.log('err'));
 };

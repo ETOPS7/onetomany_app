@@ -14,7 +14,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { presentAdd, presentAddState } from '../../Redux/actions/currentPresentActions';
+import {
+  presentAdd,
+  presentAddState,
+} from '../../Redux/actions/currentPresentActions';
 
 const theme = createTheme();
 
@@ -36,6 +39,7 @@ export default function CreateCloudWords() {
   const onlySaveHandler = (e) => {
     e.preventDefault();
     dispatch(presentAdd(input));
+    // window.location = '/presents';
     navigate('/presents');
   };
 
@@ -46,7 +50,7 @@ export default function CreateCloudWords() {
 
   React.useEffect(() => {
     console.log('currentpresent 2 ======>', currentpresent);
-    if (state && currentpresent) navigate(`/${currentpresent.id}/${currentpresent.pincode}`);
+    if (state && currentpresent) { navigate(`/${currentpresent.id}/${currentpresent.pincode}`); }
   }, [state]);
 
   return (
@@ -71,9 +75,7 @@ export default function CreateCloudWords() {
             {' '}
             и введите pin-код
             {' '}
-            <strong>
-              #####
-            </strong>
+            <strong>#####</strong>
           </Typography>
           <Divider />
 
@@ -83,15 +85,22 @@ export default function CreateCloudWords() {
               textAlign: 'center',
               fontSize: '50px',
               textDecoration: 'underline solid #80d7ff9a',
-              mb: 10
+              mb: 10,
             }}
           >
             {input.question}
-
           </Typography>
           <Container id="container3">
-            <Typography id="bottomText" sx={{ color: 'black', textAlign: 'center', fontSize: '23px' }}>
-              <PersonIcon id="icon" fontSize="large" sx={{ paddingTop: '5px' }} viewBox="0 -7.5 24 27" />
+            <Typography
+              id="bottomText"
+              sx={{ color: 'black', textAlign: 'center', fontSize: '23px' }}
+            >
+              <PersonIcon
+                id="icon"
+                fontSize="large"
+                sx={{ paddingTop: '5px' }}
+                viewBox="0 -7.5 24 27"
+              />
               0
             </Typography>
           </Container>
@@ -110,7 +119,12 @@ export default function CreateCloudWords() {
               Создание презентации
             </Typography>
 
-            <Box onSubmit={onlySaveHandler} component="form" noValidate sx={{ mt: 1 }}>
+            <Box
+              onSubmit={onlySaveHandler}
+              component="form"
+              noValidate
+              sx={{ mt: 1 }}
+            >
               <TextField
                 name="name"
                 onChange={inputHandler}
@@ -135,7 +149,10 @@ export default function CreateCloudWords() {
                 fullWidth
                 variant="contained"
                 sx={{
-                  mt: 3, mb: 2, backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: '#008964',
+                  '&:hover': { backgroundColor: '#3bba92' },
                 }}
               >
                 Добавить и сохранить
@@ -147,7 +164,11 @@ export default function CreateCloudWords() {
               onClick={saveAndShowHandler}
               variant="outlined"
               sx={{
-                mt: 25, mb: 2, backgroundColor: 'white', color: '#008964', height: '100px'
+                mt: 25,
+                mb: 2,
+                backgroundColor: 'white',
+                color: '#008964',
+                height: '100px',
               }}
               id="btn2"
               startIcon={<PlayCircleOutlineIcon />}

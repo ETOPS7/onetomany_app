@@ -9,10 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import {
-  DataGrid,
-  GridActionsCellItem,
-} from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import {
   randomCreatedDate,
   randomTraderName,
@@ -43,7 +40,6 @@ function RenderDate(props) {
   }, [hasFocus]);
 
   return (
-
     <IconButton
       component="button"
       ref={buttonElement}
@@ -128,7 +124,7 @@ export default function AllMyPresentations() {
     if (!presents.length) {
       dispatch(allPresent());
     }
-  }, []);
+  }, [presents]);
   const [rows, setRows] = React.useState(presents);
   /* const [rowModesModel, setRowModesModel] = React.useState({}); */
 
@@ -200,8 +196,7 @@ export default function AllMyPresentations() {
           onClick={handleDeleteClick(id)}
           color="inherit"
         />,
-      ]
-      ,
+      ],
     },
   ];
 
@@ -213,16 +208,22 @@ export default function AllMyPresentations() {
         justifyContent="space-between"
         alignItems="flex-end"
       >
-        <Box sx={{
-          display: 'flex', flexDirection: 'row-reverse', margin: '4rem 12rem'
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row-reverse',
+            margin: '4rem 12rem',
+          }}
         >
           <Button
             size="large"
             variant="contained"
             startIcon={<AddIcon />}
             sx={{
-              minWidth: 'max-content', backgroundColor: '#3bba92', color: 'white', '&:hover': { backgroundColor: '#f9d423' }
+              minWidth: 'max-content',
+              backgroundColor: '#3bba92',
+              color: 'white',
+              '&:hover': { backgroundColor: '#f9d423' },
             }}
             disableElevation
             onClick={handleAddRow}
@@ -242,17 +243,19 @@ export default function AllMyPresentations() {
           width: '60%',
           margin: 'auto',
           '& .super-app-theme--header': {
-            backgroundColor: '#3bba92', color: 'white'
+            backgroundColor: '#3bba92',
+            color: 'white',
           },
         }}
       >
-        <Typography sx={{
-          mt: '-38px',
-          mb: '13px',
-          color: '#008964',
-          marginRight: 'auto',
-          fontSize: '24px'
-        }}
+        <Typography
+          sx={{
+            mt: '-38px',
+            mb: '13px',
+            color: '#008964',
+            marginRight: 'auto',
+            fontSize: '24px',
+          }}
         >
           Мои презентации:
         </Typography>

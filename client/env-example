@@ -1,3 +1,2 @@
-REACT_APP_SERVER_PATH=http://localhost:3003
 REACT_APP_CLIENT_PATH=http://localhost:3000
 REACT_APP_WSURL=ws://localhost:3001

@@ -1,6 +1,9 @@
 /* eslint-disable max-len */
 import {
-  Button, Card, CardContent, Container, Typography,
+  Button,
+  Card,
+  CardContent, Container,
+  Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { TagCloud } from 'react-tagcloud';
@@ -44,7 +47,7 @@ export default function ShowCloud() {
   const navigate = useNavigate();
   const handleClick = () => {
     // dispatch()
-    // return window.location('/presents');
+    // window.location = '/presents';
     navigate('/presents');
   };
 
@@ -59,7 +62,7 @@ export default function ShowCloud() {
             mt: 10,
             height: '50px',
             width: '93px',
-            '&:hover': { backgroundColor: 'lavender' }
+            '&:hover': { backgroundColor: 'lavender' },
           }}
         >
           Выход
@@ -72,9 +75,7 @@ export default function ShowCloud() {
           {' '}
           и введите код
           {' '}
-          <strong>
-            { currentpresent.pincode}
-          </strong>
+          <strong>{currentpresent.pincode}</strong>
         </Typography>
         <Typography
           id="textMain"
@@ -83,13 +84,16 @@ export default function ShowCloud() {
             textAlign: 'center',
             fontSize: '50px',
             textDecoration: 'underline solid #80d7ff9a',
-            mb: 10
+            mb: 10,
           }}
         >
           {currentpresent.question}
         </Typography>
       </Container>
-      <Box id="container2" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box
+        id="container2"
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
         <TagCloud
           minSize={19}
           maxSize={70}
@@ -105,7 +109,12 @@ export default function ShowCloud() {
       </Box>
       <Container id="container3">
         <Typography id="text45" sx={{ color: 'black', textAlign: 'center' }}>
-          <PersonIcon id="icon" fontSize="large" sx={{ paddingTop: '5px' }} viewBox="0 -7.5 24 27" />
+          <PersonIcon
+            id="icon"
+            fontSize="large"
+            sx={{ paddingTop: '5px' }}
+            viewBox="0 -7.5 24 27"
+          />
           {counter}
         </Typography>
       </Container>

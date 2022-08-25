@@ -6,9 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import {
-  Button, TextField
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -30,7 +28,7 @@ export default function WelcomePage() {
       setError(true);
     } else {
       console.log('WelcomePage -- checkPincode() --- input[0] --->', input[0]);
-      dispatch(checkPincode({ pincode: input[0] }));
+      dispatch(checkPincode({ pincode: input[0] }, setError));
     }
   };
   const pinCheck = useSelector((state) => state.pincodeCheck);
@@ -46,7 +44,7 @@ export default function WelcomePage() {
   }, [pinCheck]);
 
   const changeHandler = (e) => {
-    setInput((prev) => ([e.target.value]));
+    setInput((prev) => [e.target.value]);
     console.log(input);
   };
 
@@ -66,13 +64,19 @@ export default function WelcomePage() {
       <Container
         component="main"
         sx={{
-          mt: 9, mb: 2, mr: 15, ml: { xs: '2px', sm: '70px' }
+          mt: 9,
+          mb: 2,
+          mr: 15,
+          ml: { xs: '2px', sm: '70px' },
         }}
         maxWidth="sm"
       >
         <Typography
           sx={{
-            pl: 2, fontSize: { xs: '20px', sm: '20px' }, mt: 3, ml: '-10px'
+            pl: 2,
+            fontSize: { xs: '20px', sm: '20px' },
+            mt: 3,
+            ml: '-10px',
           }}
           variant="h5"
           component="h2"
@@ -84,7 +88,11 @@ export default function WelcomePage() {
           variant="h2"
           component="h1"
           id="maintext"
-          sx={{ fontSize: { xs: '50px', sm: '80px' }, pr: { xs: '35px', sm: '100px' }, display: 'flex' }}
+          sx={{
+            fontSize: { xs: '50px', sm: '80px' },
+            pr: { xs: '35px', sm: '100px' },
+            display: 'flex',
+          }}
           gutterBottom
         >
           <CheckBoxIcon sx={{ fontSize: 'inherit' }} viewBox="2 -2.9 20 25" />
@@ -92,79 +100,81 @@ export default function WelcomePage() {
         </Typography>
         <Box sx={{ display: 'flex-column' }}>
           <Typography sx={{ mr: 5 }}>Введите код для голосования</Typography>
-          <Box onSubmit={submitHandler} component="form" sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
-            {error
-              ? (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  error
-                  autoFocus
-                  onChange={changeHandler}
-                  sx={{
-                    borderRadius: '0%',
-                    '& .MuiOutlinedInput-root:hover': {
-                      '& > fieldset': {
-                        borderColor: 'white'
-                      }
+          <Box
+            onSubmit={submitHandler}
+            component="form"
+            sx={{ mt: 1, display: 'flex', alignItems: 'center' }}
+          >
+            {error ? (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                error
+                autoFocus
+                onChange={changeHandler}
+                sx={{
+                  borderRadius: '0%',
+                  '& .MuiOutlinedInput-root:hover': {
+                    '& > fieldset': {
+                      borderColor: 'white',
                     },
-                    '& .MuiOutlinedInput-root.Mui-focused': {
-                      '& > fieldset': {
-                        borderColor: 'red',
-                        color: 'white'
-                      }
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      '& > fieldset': { border: 'none' }
-                    },
-                  }}
-                  inputProps={{
-                    style: {
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused': {
+                    '& > fieldset': {
+                      borderColor: 'red',
                       color: 'white',
-                      border: '3px solid #b71c1c',
-                      borderRadius: '10px'
-                    }
-                  }}
-                />
-              )
-              : (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  // label="введите код для голосования"
-                  // autoFocus
-                  onChange={changeHandler}
-                  sx={{
-                    borderRadius: '0%',
-                    '& .MuiOutlinedInput-root:hover': {
-                      '& > fieldset': {
-                        borderColor: 'white'
-                      }
                     },
-                    '& .MuiOutlinedInput-root.Mui-focused': {
-                      '& > fieldset': {
-                        borderColor: 'white',
-                        color: 'white'
-                      }
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    '& > fieldset': { border: 'none' },
+                  },
+                }}
+                inputProps={{
+                  style: {
+                    color: 'white',
+                    border: '3px solid #b71c1c',
+                    borderRadius: '10px',
+                  },
+                }}
+              />
+            ) : (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                // label="введите код для голосования"
+                // autoFocus
+                onChange={changeHandler}
+                sx={{
+                  borderRadius: '0%',
+                  '& .MuiOutlinedInput-root:hover': {
+                    '& > fieldset': {
+                      borderColor: 'white',
                     },
-                    '& .MuiOutlinedInput-root': {
-                      '& > fieldset': {
-                        border: 'none'
-                      }
-                    },
-                  }}
-                  inputProps={{
-                    style: {
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused': {
+                    '& > fieldset': {
+                      borderColor: 'white',
                       color: 'white',
-                      border: '3px solid white',
-                      // borderRight: '0',
-                      borderRadius: '10px'
-                    }
-                  }}
-                />
-              )}
+                    },
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    '& > fieldset': {
+                      border: 'none',
+                    },
+                  },
+                }}
+                inputProps={{
+                  style: {
+                    color: 'white',
+                    border: '3px solid white',
+                    // borderRight: '0',
+                    borderRadius: '10px',
+                  },
+                }}
+              />
+            )}
             <Button
               type="submit"
               variant="contained"
@@ -177,7 +187,7 @@ export default function WelcomePage() {
                 width: '120px',
                 height: '61.5px',
                 borderRadius: '10px',
-                backgroundColor: 'white'
+                backgroundColor: 'white',
               }}
               endIcon={<ArrowForwardIosIcon />}
             >
@@ -204,7 +214,6 @@ export default function WelcomePage() {
             onClick={() => navigate('/signin')}
           >
             зайти как админ
-
           </Button>
         </Box>
       </Container>

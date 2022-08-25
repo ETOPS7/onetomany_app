@@ -12,22 +12,27 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// import useState from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import { useNavigate } from 'react-router-dom';
 import { addWord } from '../../Redux/actions/wordsActions';
 import { socketInit } from '../../Redux/actions/wsActions';
 
 const theme = createTheme();
 
 export default function FromAnswerCloud() {
-
-  const [input, setInput] = useState([]);
-  const [error, setError] = useState(false);
-  const currentpresent = useSelector((state) => state.currentpresent);
-
+  const [input, setInput] = React.useState([]);
+  const [error, setError] = React.useState(false);
+  // const currentpresent = useSelector((state) => state.currentpresent);
+  const crprt = useSelector((state) => state.currentpresent);
+  const [loading, setLoading] = React.useState(false);
+  const ws = useSelector((state) => state.ws);
+  const status = useSelector((state) => state.state);
+  const navigate = useNavigate();
+  const [hasBeenSent, setHasBeenSent] = React.useState(false);
+  const dispatch = useDispatch();
   function checkWord(arr) {
     const res = arr.join(' ').split(' ');
     if (res.length === 1) {
@@ -36,51 +41,46 @@ export default function FromAnswerCloud() {
     return false;
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    if (!checkWord(input)) {
-      setError(true);
-      console.log('error');
-    } else {
-      dispatchEvent(
-        addWord({
-          word: data.get('word'),
-          present_id: currentpresent.payload.id
-        })
-      );
-      setInput('');
-    }
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   if (!checkWord(input)) {
+  //     setError(true);
+  //     console.log('error');
+  //   } else {
+  //     dispatchEvent(
+  //       addWord({
+  //         word: data.get('word'),
+  //         present_id: currentpresent.payload.id
+  //       })
+  //     );
+  //     setInput('');
+  //   }
+  // };
 
   const changeHandler = (e) => {
-    setInput((prev) => ([e.target.value]));
+    setInput((prev) => [e.target.value]);
     console.log(input);
-  const crprt = useSelector((state) => state.currentpresent);
-  const ws = useSelector((state) => state.ws);
-  const status = useSelector((state) => state.state);
-  // console.log('currentpresent 5 ======>', crprt);
-  // console.log('status 5 ======>', status);
-  const [loading, setLoading] = React.useState(false);
-  const [hasBeenSent, setHasBeenSent] = React.useState(false);
-  const dispatch = useDispatch();
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log('data---->', data.set);
-    
-    if (checkWord(input)){
-    dispatch(
-      addWord({
-        word: data.get('word'),
-        present_id: crprt.id
-      })
-    );
-    setInput('')
-    }else {
-    setError(true);
+
+    if (checkWord(input)) {
+      dispatch(
+        addWord({
+          word: data.get('word'),
+          present_id: crprt.id,
+        })
+      );
+      setInput('');
+    } else {
+      setError(true);
     }
   };
+
   const handleClick = () => {
     setLoading(true);
   };
@@ -98,8 +98,10 @@ export default function FromAnswerCloud() {
       }, 8000);
     }
   }, [status]);
+
   React.useEffect(() => {
     dispatch(socketInit());
+    if (!crprt.id) navigate('/');
   }, []);
   React.useEffect(() => {
     if (ws) dispatch({ type: 'SET_ROOM', payload: crprt.id });
@@ -123,40 +125,44 @@ export default function FromAnswerCloud() {
           <Typography component="h1" variant="h5">
             {crprt.question}
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-
-            {error
-              ? (
-                <>
-                  <TextField
-                    margin="normal"
-                    required
-                    error
-                    fullWidth
-                    id="word"
-                    label="Некорректные данные"
-                    name="word"
-                    onChange={changeHandler}
-                    autoComplete="word"
-                    autoFocus
-                  />
-                  <Typography sx={{ color: '#b71c1c' }}>*в поле ответа можно ввести только одно слово</Typography>
-                </>
-              )
-              : (
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            {error ? (
+              <>
                 <TextField
                   margin="normal"
                   required
+                  error
                   fullWidth
                   id="word"
-                  label="Введите ваш ответ"
+                  label="Некорректные данные"
                   name="word"
                   onChange={changeHandler}
                   autoComplete="word"
                   autoFocus
                 />
-              )}       
-           <LoadingButton
+                <Typography sx={{ color: '#b71c1c' }}>
+                  *в поле ответа можно ввести только одно слово
+                </Typography>
+              </>
+            ) : (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="word"
+                label="Введите ваш ответ"
+                name="word"
+                onChange={changeHandler}
+                autoComplete="word"
+                autoFocus
+              />
+            )}
+            <LoadingButton
               type="submit"
               fullWidth
               onClick={handleClick}
@@ -165,7 +171,10 @@ export default function FromAnswerCloud() {
               variant="contained"
               endIcon={hasBeenSent ? <AddTaskIcon /> : <SendIcon />}
               sx={{
-                mt: 3, mb: 2, backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }
+                mt: 3,
+                mb: 2,
+                backgroundColor: '#008964',
+                '&:hover': { backgroundColor: '#3bba92' },
               }}
             >
               ОТВЕТИТЬ

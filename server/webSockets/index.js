@@ -7,6 +7,8 @@ const wss = new WebSocketServer({ clientTracking: false, noServer: true });
 wss.on('connection', (ws, request, wsMap) => {
   wsMap.set(request.session.id, {
     admin: !!request.session.user,
+    room: null,
+    ws,
   });
   console.log('>>WSDONE<<', wsMap.size, wsMap.get(request.session.id).admin);
 
@@ -16,20 +18,20 @@ wss.on('connection', (ws, request, wsMap) => {
     console.log('=======message========>', JSON.parse(message));
     console.log('=======wsMap========>');
     switch (type) {
-      case 'GET_WORDS':
-        // setInterval(async () => {
-        const words = await Result_word.findAll({
-          where: { present_id: payload },
+      case 'SET_ROOM':
+        wsMap.set(request.session.id, {
+          admin: !!request.session.user,
+          room: payload,
+          ws,
         });
-        const data = jsonHalper(words).map((el) => ({
-          value: el.word,
-          count: el.count,
-        }));
-        ws.send(JSON.stringify({
-          type: 'SET_WORDS',
-          payload: data,
-        }));
-        // }, 1000);
+        const count = Array.from(wsMap.values()).filter((el) => el.room === payload);
+        for (const [, wsClient] of wsMap) {
+          if (wsClient.room === payload) {
+            wsClient.ws.send(JSON.stringify(
+              { type: 'SET_COUNTER', payload: count.length },
+            ));
+          }
+        }
 
         break;
 
@@ -40,6 +42,16 @@ wss.on('connection', (ws, request, wsMap) => {
 
   ws.on('close', () => {
     wsMap.delete(request.session.id);
+    // const count = Array.from(wsMap.values()).filter((el) => el.room === payload);
+    // const { room } = wsMap.get(request.session.id);
+    // console.log('wsMap.get(request.session.id)  ', room);
+    // for (const [, wsClient] of wsMap) {
+    //   if (wsClient.room === payload) {
+    //     wsClient.ws.send(JSON.stringify(
+    //       { type: 'SET_COUNTER', payload: count.length },
+    //     ));
+    //   }
+    // }
   });
 });
 

@@ -74,48 +74,48 @@ RenderDate.propTypes = {
   value: PropTypes.instanceOf(Date),
 };
 
-const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    dateCreated: randomCreatedDate(),
-    lastLogin: randomUpdatedDate(),
-    date: new Date(1979, 0, 1),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    dateCreated: randomCreatedDate(),
-    lastLogin: randomUpdatedDate(),
-    date: new Date(1979, 0, 1),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    dateCreated: randomCreatedDate(),
-    lastLogin: randomUpdatedDate(),
-    date: new Date(1979, 0, 1),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    dateCreated: randomCreatedDate(),
-    lastLogin: randomUpdatedDate(),
-    date: new Date(1979, 0, 1),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    dateCreated: randomCreatedDate(),
-    lastLogin: randomUpdatedDate(),
-    date: new Date(1979, 0, 1),
-  },
-];
+// const initialRows = [
+//   {
+//     id: randomId(),
+//     name: randomTraderName(),
+//     age: 25,
+//     dateCreated: randomCreatedDate(),
+//     lastLogin: randomUpdatedDate(),
+//     date: new Date(1979, 0, 1),
+//   },
+//   {
+//     id: randomId(),
+//     name: randomTraderName(),
+//     age: 36,
+//     dateCreated: randomCreatedDate(),
+//     lastLogin: randomUpdatedDate(),
+//     date: new Date(1979, 0, 1),
+//   },
+//   {
+//     id: randomId(),
+//     name: randomTraderName(),
+//     age: 19,
+//     dateCreated: randomCreatedDate(),
+//     lastLogin: randomUpdatedDate(),
+//     date: new Date(1979, 0, 1),
+//   },
+//   {
+//     id: randomId(),
+//     name: randomTraderName(),
+//     age: 28,
+//     dateCreated: randomCreatedDate(),
+//     lastLogin: randomUpdatedDate(),
+//     date: new Date(1979, 0, 1),
+//   },
+//   {
+//     id: randomId(),
+//     name: randomTraderName(),
+//     age: 23,
+//     dateCreated: randomCreatedDate(),
+//     lastLogin: randomUpdatedDate(),
+//     date: new Date(1979, 0, 1),
+//   },
+// ];
 
 export default function AllMyPresentations() {
   const presents = useSelector((state) => state.presents);

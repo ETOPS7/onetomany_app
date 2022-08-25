@@ -84,7 +84,7 @@ export default function ShowCloud() {
             mt: 10,
             height: '50px',
             width: '93px',
-            '&:hover': { backgroundColor: 'lavender' },
+            // '&:hover': { backgroundColor: 'lavender' },
           }}
         >
           Выход

@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import SendIcon from '@mui/icons-material/Send';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { addWord } from '../../Redux/actions/wordsActions';
 import { socketInit } from '../../Redux/actions/wsActions';
 
@@ -83,6 +85,10 @@ export default function FromAnswerCloud() {
 
   const handleClick = () => {
     setLoading(true);
+  };
+
+  const handleExitClick = () => {
+    window.location = '/presents';
   };
 
   React.useEffect(() => {
@@ -179,10 +185,24 @@ export default function FromAnswerCloud() {
             >
               ОТВЕТИТЬ
             </LoadingButton>
+            <Button
+              onClick={handleExitClick}
+              id="btn"
+              variant="outlined"
+              sx={{
+                mt: 10,
+                height: '50px',
+                width: '93px',
+                // '&:hover': { backgroundColor: 'lavender' },
+              }}
+            >
+              Выход
+              <ExitToAppIcon />
+            </Button>
           </Box>
           {/* {status && (
             <Typography component="h1" variant="h5">
-              Ваш ответ принят!
+            Ваш ответ принят!
             </Typography>
           )} */}
         </Box>

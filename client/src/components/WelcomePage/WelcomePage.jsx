@@ -214,7 +214,7 @@ export default function WelcomePage() {
           </Box>
           {error && (
             <>
-              <Typography>*пин-код введен не правильно</Typography>
+              <Typography>* пин-код введен неправильно</Typography>
               <Typography>* в пин-коде должно быть 5 символов</Typography>
               <Typography>* пин-код должен содержать только цифры</Typography>
             </>

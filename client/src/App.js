@@ -1,7 +1,4 @@
-import {
-  Routes,
-  Route,
-} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SignUp from './components/SignUp/SignUp';
@@ -36,17 +33,30 @@ function App() {
 
   return (
     <div>
-      {user.id
-      && <MyNavBar />}
+      {user.id && <MyNavBar />}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/presents" element={<AllMyPresentation />} />
-        <Route path="/templates" element={<AuthUser><AllTemplates /></AuthUser>} />
+        <Route path="/templates" element={<AllTemplates />} />
         <Route path="/:id/:template/:pincode" element={<FromAnswerCloud />} />
-        <Route path="/:id/:pincode" element={(<AuthUser><ShowCloud /></AuthUser>)} />
-        <Route path="/:template" element={<AuthUser><CreateCloudWords /></AuthUser>} />
+        <Route
+          path="/:id/:pincode"
+          element={(
+            <AuthUser>
+              <ShowCloud />
+            </AuthUser>
+          )}
+        />
+        <Route
+          path="/:template"
+          element={(
+            <AuthUser>
+              <CreateCloudWords />
+            </AuthUser>
+          )}
+        />
         <Route path="/about" element={<AboutPage />} />
       </Routes>
     </div>

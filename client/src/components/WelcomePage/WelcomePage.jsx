@@ -17,6 +17,7 @@ import { checkPincode } from '../../Redux/actions/currentPresentActions';
 export default function WelcomePage() {
   const [input, setInput] = useState([]);
   const [error, setError] = useState(false);
+  const [pinCheckErr, setPinCheckErr] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const submitHandler = (e) => {
@@ -41,7 +42,24 @@ export default function WelcomePage() {
     if (pinCheck) {
       navigate(`/${crprt.id}/${crprt.type}/${crprt.pincode}`);
     }
+    // else setPinCheckErr(true);
   }, [pinCheck]);
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
+    }
+  }, [error]);
+
+  // useEffect(() => {
+  //   if (pinCheckErr) {
+  //     setTimeout(() => {
+  //       setPinCheckErr(false);
+  //     }, 2000);
+  //   }
+  // }, [pinCheckErr]);
 
   const changeHandler = (e) => {
     setInput((prev) => [e.target.value]);
@@ -196,6 +214,7 @@ export default function WelcomePage() {
           </Box>
           {error && (
             <>
+              <Typography>*пин-код введен не правильно</Typography>
               <Typography>* в пин-коде должно быть 5 символов</Typography>
               <Typography>* пин-код должен содержать только цифры</Typography>
             </>

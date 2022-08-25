@@ -5,8 +5,8 @@ const pincodeReducer = (state = false, action) => {
   switch (type) {
     case CHECK_PINCODE:
       return !state;
-    case SET_TRUE_PINCODE:
-      return payload;
+    // case SET_TRUE_PINCODE:
+    //   return payload;
     default:
       return state;
   }

@@ -17,9 +17,9 @@ router.route('/presents').get(async (req, res) => {
     include: [
       {
         model: Cloud_template,
-        attributes: {
-          exclude: ['id', 'present_id', 'createdAt', 'updatedAt'],
-        },
+        // attributes: {
+        //   exclude: ['id', 'present_id', 'createdAt', 'updatedAt'],
+        // },
         include: [
           {
             // all: true,
@@ -30,24 +30,23 @@ router.route('/presents').get(async (req, res) => {
       },
     ],
   });
-  console.log(
-    '=========================================ALL PRESENTS:',
-    presents
-  );
-  console.log('presents all length', presents);
+
+  // console.log('presents all length', presents);
   if (presents.length) {
     presents = presents.map((el) => {
       const { type } = jsonHalper(jsonHalper(el.Cloud_template).Type_template);
+      // console.log('el.q>>>>>>>>', el.question);
       return {
         id: el.id,
         name: el.name,
-        question: el.question,
+        question: el.Cloud_template.question,
         user: user_name,
         pincode: el.pincode,
         createdAt: el.createdAt,
         type,
       };
     });
+    console.log('presents>>>>>>>', presents[0].question);
     res.json(jsonHalper(presents));
   } else {
     res.json(jsonHalper(presents));
@@ -76,25 +75,31 @@ router.route('/checkpincode').post(async (req, res) => {
     ],
   });
   // console.log("router.route('/checkpincode') -- present-->", present);
-  const { type } = jsonHalper(jsonHalper(present.Cloud_template).Type_template);
-  const { question } = jsonHalper(present.Cloud_template);
+  if (present) {
+    const { type } = jsonHalper(
+      jsonHalper(present.Cloud_template).Type_template
+    );
+    const { question } = jsonHalper(present.Cloud_template);
 
-  // for (const [, wsClient] of req.app.locals.ws) {
-  // if (wsClient.room === present.id) {
-  // console.log('type=====>', type);
-  res.json(
-    jsonHalper({
-      type,
-      id: present.id,
-      pincode: req.body.pincode,
-      question,
-    })
-  );
-  // res.sendStatus(200);
-  // } else {
-  // res.sendStatus(400);
-  // }
-  // }
+    // for (const [, wsClient] of req.app.locals.ws) {
+    // if (wsClient.room === present.id) {
+    // console.log('type=====>', type);
+    res.json(
+      jsonHalper({
+        type,
+        id: present.id,
+        pincode: req.body.pincode,
+        question,
+      })
+    );
+    // res.sendStatus(200);
+    // } else {
+    // res.sendStatus(400);
+    // }
+    // }
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 router.route('/word').post(async (req, res) => {

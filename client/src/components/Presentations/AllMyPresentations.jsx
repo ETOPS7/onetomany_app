@@ -17,6 +17,7 @@ import {
   randomId,
 } from '@mui/x-data-grid-generator';
 import { allPresent, deletePresent } from '../../Redux/actions/presentsActions';
+import { onePresSlice } from '../../Redux/actions/currentPresentActions';
 
 let idCounter = 0;
 const createRandomRow = () => {
@@ -118,6 +119,8 @@ const initialRows = [
 
 export default function AllMyPresentations() {
   const presents = useSelector((state) => state.presents);
+  const currentpresent = useSelector((state) => state.currentpresent);
+  const state = useSelector((state1) => state1.state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   React.useEffect(() => {
@@ -125,6 +128,12 @@ export default function AllMyPresentations() {
       dispatch(allPresent());
     }
   }, [presents]);
+
+  React.useEffect(() => {
+    console.log('currentpresent 2 ======>', currentpresent);
+    if (state && currentpresent) navigate(`/${currentpresent.id}/${currentpresent.pincode}`);
+  }, [state]);
+
   const [rows, setRows] = React.useState(presents);
   /* const [rowModesModel, setRowModesModel] = React.useState({}); */
 
@@ -137,20 +146,34 @@ export default function AllMyPresentations() {
     /* setRows(rows.filter((row) => row.id !== id)); */
   };
 
+  const handlePlayClick = (id, pincode) => () => {
+    const [pres] = presents.filter((el) => el.id === id);
+    dispatch(onePresSlice(pres));
+  };
+
   const columns = [
     {
-      field: 'date',
+      field: 'play',
+      type: 'actions',
       headerName: 'PLAY',
       headerClassName: 'super-app-theme--header',
       headerAlign: 'center',
       align: 'center',
+      cellClassName: 'actions',
       // width: 150,
       flex: 1,
-      renderCell: RenderDate,
+      getActions: ({ id }) => [
+        <GridActionsCellItem
+          icon={<PlayCircleFilledIcon />}
+          label="Delete"
+          onClick={handlePlayClick(id)}
+          color="inherit"
+        />,
+      ],
     },
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: 'Имя презентации',
       headerClassName: 'super-app-theme--header',
       // width: 180,
       flex: 1,
@@ -158,7 +181,7 @@ export default function AllMyPresentations() {
     },
     {
       field: 'type_template',
-      headerName: 'Type Template',
+      headerName: 'Тип шаблона',
       headerClassName: 'super-app-theme--header',
       // width: 180,
       flex: 1,
@@ -166,7 +189,7 @@ export default function AllMyPresentations() {
     },
     {
       field: 'user',
-      headerName: 'Name Admin',
+      headerName: 'Автор',
       headerClassName: 'super-app-theme--header',
       // width: 180,
       flex: 1,
@@ -174,7 +197,7 @@ export default function AllMyPresentations() {
     },
     {
       field: 'createdAt',
-      headerName: 'Date Created',
+      headerName: 'Дата создания',
       headerClassName: 'super-app-theme--header',
       type: 'date',
       // width: 180,

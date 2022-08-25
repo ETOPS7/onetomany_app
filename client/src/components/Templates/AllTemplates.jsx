@@ -24,13 +24,9 @@ const tiers = [
     title: 'Рейтинг',
     type: '1',
     color: 'red',
-    backgroundImage: 'https://miro.medium.com/max/1400/1*uhU09i05wLx3sztM2mtT0g.gif',
-    description: [
-      'тут что-то написано',
-      'тут что-то написано',
-      'тут что-то написано',
-      'тут что-то написано',
-    ],
+    backgroundImage:
+      'https://miro.medium.com/max/1400/1*uhU09i05wLx3sztM2mtT0g.gif',
+    description: ['тут что-то написано', 'тут что-то написано'],
     buttonText: 'Выбрать шаблон',
     buttonVariant: 'contained',
   },
@@ -38,30 +34,22 @@ const tiers = [
     title: 'Облако слов',
     type: 'wordscloud',
     subheader: '⭐⭐⭐',
-    backgroundImage: 'https://community.wolfram.com/c/portal/getImageAttachment?filename=ezgif-284582628.gif&userId=11733',
+    backgroundImage:
+      'https://community.wolfram.com/c/portal/getImageAttachment?filename=ezgif-284582628.gif&userId=11733',
     color: 'blue',
-    description: [
-      'тут что-то написано',
-      'тут что-то написано',
-      'тут что-то написано',
-      'тут что-то написано',
-    ],
+    description: ['визуализация текста', 'живое обновление'],
     buttonText: 'Выбрать шаблон',
     buttonVariant: 'contained',
-    backgroundColor: '#008964'
+    backgroundColor: '#008964',
   },
   {
     title: 'Emoji',
     type: '3',
     price: '30',
-    backgroundImage: 'https://cdn.dribbble.com/users/829077/screenshots/4634872/rate_emoji.gif',
+    backgroundImage:
+      'https://cdn.dribbble.com/users/829077/screenshots/4634872/rate_emoji.gif',
     color: 'pink',
-    description: [
-      'тут что-то написано',
-      'тут что-то написано',
-      'тут что-то написано',
-      'тут что-то написано',
-    ],
+    description: ['тут что-то написано', 'тут что-то написано'],
     buttonText: 'Выбрать шаблон',
     buttonVariant: 'contained',
   },
@@ -76,8 +64,18 @@ export default function AllTemplates() {
   };
   return (
     <>
-      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 5, pb: 6 }}>
-        <Typography variant="h5" align="center" color="text.secondary" component="p">
+      <Container
+        disableGutters
+        maxWidth="sm"
+        component="main"
+        sx={{ pt: 5, pb: 6 }}
+      >
+        <Typography
+          variant="h5"
+          align="center"
+          color="text.secondary"
+          component="p"
+        >
           Для создания презентации выберите шаблон
         </Typography>
       </Container>
@@ -157,7 +155,9 @@ export default function AllTemplates() {
                     fullWidth
                     variant={tier.buttonVariant}
                     sx={{
-                      backgroundColor: '#008964', '&:hover': { backgroundColor: '#3bba92' }, color: 'white'
+                      backgroundColor: '#008964',
+                      '&:hover': { backgroundColor: '#3bba92' },
+                      color: 'white',
                     }}
                   >
                     {tier.buttonText}

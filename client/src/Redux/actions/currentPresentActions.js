@@ -46,16 +46,28 @@ export const checkPincode = (input, setError) => (dispatch) => {
         type: ADD_PRESENT,
         payload: res.data,
       });
+      // if (res.data) {
       dispatch({
-        type: SET_TRUE_PINCODE,
-        payload: true,
+        type: CHECK_PINCODE,
+        // payload: true,
       });
+      // }
       // navigate(`/${res.data.id}/${res.data.type}/${res.data.pincode}`);
     })
     .catch((err) => {
       setError(true);
       console.log('Ошибка в ручке проверки pincode');
     });
+};
+
+export const onePresSlice = (value) => (dispatch) => {
+  dispatch({
+    type: ADD_PRESENT,
+    payload: value,
+  });
+  dispatch({
+    type: CHANGE_STATE,
+  });
 };
 
 // export const s = '';

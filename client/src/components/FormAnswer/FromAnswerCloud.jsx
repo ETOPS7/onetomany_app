@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SendIcon from '@mui/icons-material/Send';
 import AddTaskIcon from '@mui/icons-material/AddTask';
@@ -21,6 +23,39 @@ import { socketInit } from '../../Redux/actions/wsActions';
 const theme = createTheme();
 
 export default function FromAnswerCloud() {
+
+  const [input, setInput] = useState([]);
+  const [error, setError] = useState(false);
+  const currentpresent = useSelector((state) => state.currentpresent);
+
+  function checkWord(arr) {
+    const res = arr.join(' ').split(' ');
+    if (res.length === 1) {
+      return true;
+    }
+    return false;
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    if (!checkWord(input)) {
+      setError(true);
+      console.log('error');
+    } else {
+      dispatchEvent(
+        addWord({
+          word: data.get('word'),
+          present_id: currentpresent.payload.id
+        })
+      );
+      setInput('');
+    }
+  };
+
+  const changeHandler = (e) => {
+    setInput((prev) => ([e.target.value]));
+    console.log(input);
   const crprt = useSelector((state) => state.currentpresent);
   const ws = useSelector((state) => state.ws);
   const status = useSelector((state) => state.state);
@@ -33,12 +68,18 @@ export default function FromAnswerCloud() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log('data---->', data.set);
+    
+    if (checkWord(input)){
     dispatch(
       addWord({
         word: data.get('word'),
         present_id: crprt.id
       })
     );
+    setInput('')
+    }else {
+    setError(true);
+    }
   };
   const handleClick = () => {
     setLoading(true);
@@ -83,17 +124,39 @@ export default function FromAnswerCloud() {
             {crprt.question}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="word"
-              label="Введите ваш ответ"
-              name="word"
-              autoComplete="word"
-              autoFocus
-            />
-            <LoadingButton
+
+            {error
+              ? (
+                <>
+                  <TextField
+                    margin="normal"
+                    required
+                    error
+                    fullWidth
+                    id="word"
+                    label="Некорректные данные"
+                    name="word"
+                    onChange={changeHandler}
+                    autoComplete="word"
+                    autoFocus
+                  />
+                  <Typography sx={{ color: '#b71c1c' }}>*в поле ответа можно ввести только одно слово</Typography>
+                </>
+              )
+              : (
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="word"
+                  label="Введите ваш ответ"
+                  name="word"
+                  onChange={changeHandler}
+                  autoComplete="word"
+                  autoFocus
+                />
+              )}       
+           <LoadingButton
               type="submit"
               fullWidth
               onClick={handleClick}

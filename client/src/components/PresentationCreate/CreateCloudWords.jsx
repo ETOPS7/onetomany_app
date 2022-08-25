@@ -69,10 +69,10 @@ export default function CreateCloudWords() {
             {' '}
             <strong>{port}</strong>
             {' '}
-            и введите код
+            и введите pin-код
             {' '}
             <strong>
-              *XXXXX*
+              #####
             </strong>
           </Typography>
           <Divider />
@@ -90,7 +90,7 @@ export default function CreateCloudWords() {
 
           </Typography>
           <Container id="container3">
-            <Typography id="bottomText" sx={{ color: 'black', textAlign: 'center' }}>
+            <Typography id="bottomText" sx={{ color: 'black', textAlign: 'center', fontSize: '23px' }}>
               <PersonIcon id="icon" fontSize="large" sx={{ paddingTop: '5px' }} viewBox="0 -7.5 24 27" />
               0
             </Typography>

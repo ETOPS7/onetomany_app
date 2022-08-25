@@ -18,6 +18,7 @@ import FromAnswerCloud from './components/FormAnswer/FromAnswerCloud';
 import ModalQRcode from './components/ModalQR/ModalQRcode';
 import './styles/index.css';
 import AuthUser from './components/RequireAuth/AuthUser';
+import AboutPage from './components/AboutPage/AboutPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ function App() {
         <Route path="/:id/:template/:pincode" element={<FromAnswerCloud />} />
         <Route path="/:id/:pincode" element={(<AuthUser><ShowCloud /></AuthUser>)} />
         <Route path="/:template" element={<AuthUser><CreateCloudWords /></AuthUser>} />
-        {/* <Route path="/qr" element={<AuthUser><ModalQRcode /></AuthUser>} /> */}
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </div>
   );

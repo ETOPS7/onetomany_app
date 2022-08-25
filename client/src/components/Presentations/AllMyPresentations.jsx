@@ -180,7 +180,7 @@ export default function AllMyPresentations() {
       editable: true,
     },
     {
-      field: 'type_template',
+      field: 'type',
       headerName: 'Тип шаблона',
       headerClassName: 'super-app-theme--header',
       // width: 180,

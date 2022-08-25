@@ -77,7 +77,7 @@ router.route('/checkpincode').post(async (req, res) => {
   // console.log("router.route('/checkpincode') -- present-->", present);
   if (present) {
     const { type } = jsonHalper(
-      jsonHalper(present.Cloud_template).Type_template
+      jsonHalper(present.Cloud_template).Type_template,
     );
     const { question } = jsonHalper(present.Cloud_template);
 
@@ -90,7 +90,7 @@ router.route('/checkpincode').post(async (req, res) => {
         id: present.id,
         pincode: req.body.pincode,
         question,
-      })
+      }),
     );
     // res.sendStatus(200);
     // } else {
@@ -131,7 +131,7 @@ router.route('/word').post(async (req, res) => {
       JSON.stringify({
         type: 'GET_WORDS',
         payload: allWords,
-      })
+      }),
     );
     // }
   }
@@ -234,7 +234,7 @@ router.route('/word').post(async (req, res) => {
           word: currentword.word,
           present_id: currentword.present_id,
         },
-      }
+      },
     );
     Result_word.save();
   } else {

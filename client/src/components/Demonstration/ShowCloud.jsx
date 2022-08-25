@@ -1,7 +1,8 @@
 /* eslint-disable max-len */
 import * as React from 'react';
 import {
-  Button, Card,
+  Button,
+  Card,
   CardContent,
   Container,
   Typography,
@@ -9,7 +10,7 @@ import {
 import { Box } from '@mui/system';
 import { TagCloud } from 'react-tagcloud';
 import PersonIcon from '@mui/icons-material/Person';
-import './ShowCloud.module.css';
+import './ShowCloud.css';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -127,7 +128,7 @@ export default function ShowCloud() {
             />
           </Box>
         </Modal>
-        <Typography id="url" variant="h2">
+        <Typography variant="h5" sx={{ textAlign: 'center' }}>
           Перейдите по ссылке
           {' '}
           <strong>{port}</strong>
@@ -154,14 +155,16 @@ export default function ShowCloud() {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <TagCloud
-          minSize={19}
-          maxSize={70}
+          minSize={30}
+          maxSize={90}
           tags={words}
           className="simple-cloud"
           colorOptions={{
             luminosity: 'dark',
           }}
           style={{
+            width: '80%',
+            margin: '20px !important',
             textAlign: 'center',
           }}
         />

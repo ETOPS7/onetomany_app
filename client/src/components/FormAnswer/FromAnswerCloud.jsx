@@ -73,7 +73,7 @@ export default function FromAnswerCloud() {
     if (checkWord(input)) {
       dispatch(
         addWord({
-          word: data.get('word'),
+          word: data.get('word').toUpperCase(),
           present_id: crprt.id,
         })
       );
@@ -88,7 +88,7 @@ export default function FromAnswerCloud() {
   };
 
   const handleExitClick = () => {
-    window.location = '/presents';
+    window.location = '/';
   };
 
   React.useEffect(() => {

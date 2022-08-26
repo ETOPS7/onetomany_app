@@ -166,6 +166,22 @@ router.route('/:id/:template').delete(async (req, res) => {
   }
 });
 
+// открытие конкретной презентации
+router.route('/:template/:id').get(async (req, res) => {
+  console.log('size------------------------', req.app.locals.ws.size);
+
+  console.log("router.route('/:template/:id').get=====>", req.params.id);
+  const present_id = req.params.id;
+  const words = Result_word.findAll({ where: { present_id } });
+  res.json(words);
+  // //! id из нашего cloud template
+  // const { id } = req.params;
+  // const cloudtemplate = await Cloud_template.findOne({
+  //   where: { id },
+  // });
+  // res.json(cloudtemplate);
+});
+
 // создание презентации
 router.route('/:template').post(async (req, res) => {
   console.log('size------------------------', req.app.locals.ws.size);
@@ -201,21 +217,7 @@ router.route('/:template').post(async (req, res) => {
   //   const { template } = req.params;
 });
 
-// открытие конкретной презентации
-router.route('/:template/:id').get(async (req, res) => {
-  console.log('size------------------------', req.app.locals.ws.size);
 
-  console.log("router.route('/:template/:id').get=====>", req.params.id);
-  const present_id = req.params.id;
-  const words = Result_word.findAll({ where: { present_id } });
-  res.json(words);
-  // //! id из нашего cloud template
-  // const { id } = req.params;
-  // const cloudtemplate = await Cloud_template.findOne({
-  //   where: { id },
-  // });
-  // res.json(cloudtemplate);
-});
 
 //! удаление презентаци на странице со списком всех презентаций
 

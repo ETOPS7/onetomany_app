@@ -45,7 +45,8 @@ function MyNavBar() {
 
   const logoutHandler = () => {
     dispatch(logoutUser());
-    navigate('/');
+    // navigate('/');
+    window.location = '/';
   };
 
   return (

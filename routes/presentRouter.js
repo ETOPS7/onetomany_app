@@ -47,10 +47,11 @@ router.route('/presents').get(async (req, res) => {
       };
     });
     console.log('presents>>>>>>>', presents[0].question);
-    res.json(jsonHalper(presents));
+    return res.json(jsonHalper(presents));
   } else {
-    res.json(jsonHalper(presents));
+    return res.json(jsonHalper(presents));
   }
+  res.sendStatus(400);
 });
 
 router.route('/checkpincode').post(async (req, res) => {
@@ -77,7 +78,7 @@ router.route('/checkpincode').post(async (req, res) => {
   // console.log("router.route('/checkpincode') -- present-->", present);
   if (present) {
     const { type } = jsonHalper(
-      jsonHalper(present.Cloud_template).Type_template,
+      jsonHalper(present.Cloud_template).Type_template
     );
     const { question } = jsonHalper(present.Cloud_template);
 
@@ -90,7 +91,7 @@ router.route('/checkpincode').post(async (req, res) => {
         id: present.id,
         pincode: req.body.pincode,
         question,
-      }),
+      })
     );
     // res.sendStatus(200);
     // } else {
@@ -131,7 +132,7 @@ router.route('/word').post(async (req, res) => {
       JSON.stringify({
         type: 'GET_WORDS',
         payload: allWords,
-      }),
+      })
     );
     // }
   }
@@ -192,7 +193,7 @@ router.route('/:template').post(async (req, res) => {
       createdAt: present.createdAt,
       type: req.params.template,
     };
-    res.json(OnePresent);
+    return res.json(OnePresent);
   } catch (error) {
     console.log(error);
     return res.sendStatus(409);
@@ -234,7 +235,7 @@ router.route('/word').post(async (req, res) => {
           word: currentword.word,
           present_id: currentword.present_id,
         },
-      },
+      }
     );
     Result_word.save();
   } else {

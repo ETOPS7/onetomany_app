@@ -83,6 +83,14 @@ export default function FromAnswerCloud() {
     }
   };
 
+  React.useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
+    }
+  }, [error]);
+
   const handleClick = () => {
     setLoading(true);
   };

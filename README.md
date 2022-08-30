@@ -13,6 +13,7 @@
 ```shell
 Стек технологий: Java Script | React | Redux | MUI | Express | Postgress | Node.js | Websockets
 ```
-> &copy; Приложение разработано командой: **[Артем Карасев](https://github.com/ETOPS7), [Анна Шмелева](https://github.com/Jihiko-Anna), [Дарья Лобанова](https://github.com/dashrys), [Алмас Сейтгалиев](https://github.com/Diamondooooo)**
+> &copy; Приложение разработано командой:
+**[Артем Карасев](https://github.com/ETOPS7), [Анна Шмелева](https://github.com/Jihiko-Anna), [Дарья Лобанова](https://github.com/dashrys), [Алмас Сейтгалиев](https://github.com/Diamondooooo)**
 
 

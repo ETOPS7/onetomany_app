@@ -57,7 +57,6 @@ export default function WelcomePage() {
 
   const changeHandler = (e) => {
     setInput((prev) => [e.target.value]);
-    console.log(input);
   };
 
   return (

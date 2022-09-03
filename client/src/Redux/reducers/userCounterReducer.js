@@ -4,7 +4,6 @@ const userCounterReducer = (state = 0, action) => {
   const { type, payload } = action;
   switch (type) {
     case SET_COUNTER:
-      // console.log('userReducer', payload);
       return payload;
 
     default:

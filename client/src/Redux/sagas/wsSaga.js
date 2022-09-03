@@ -3,7 +3,6 @@ import {
   put,
   call,
   fork,
-  takeLatest,
   takeEvery,
 } from 'redux-saga/effects';
 import { eventChannel, END } from 'redux-saga';
@@ -14,7 +13,6 @@ import {
 function createSocketChannel(socket, action) {
   return eventChannel((emit) => {
     socket.onopen = () => {
-      console.log('action --->', action);
       emit({ type: SET_WS, payload: true });
     };
 
@@ -23,7 +21,6 @@ function createSocketChannel(socket, action) {
     };
 
     socket.onmessage = function (event) {
-      console.log('message --->>', JSON.parse(event.data));
       emit(JSON.parse(event.data));
     };
 
@@ -41,21 +38,6 @@ function createSocketChannel(socket, action) {
 function createWebSocketConnection() {
   return new WebSocket(process.env.REACT_APP_WSURL);
 }
-
-// function* userMessage(socket) {
-//   while (true) {
-//     const message = yield take(SET_CHAT_MESSAGE);
-//     console.log('mess---->>', message);
-//     socket.send(JSON.stringify(message));
-//   }
-// }
-
-// function* getUserMessages(socket) {
-//   while (true) {
-//     const message = yield take(GET_CHAT_MESSAGES);
-//     socket.send(JSON.stringify(message));
-//   }
-// }
 
 function* getUserWords(socket) {
   while (true) {
@@ -82,7 +64,6 @@ function* chatWatcer(action) {
   const socket = yield call(createWebSocketConnection);
   const socketChannel = yield call(createSocketChannel, socket, action);
 
-  // yield fork(userMessage, socket);
   yield fork(getUserWords, socket);
   yield fork(setUserWords, socket);
   yield fork(setRoom, socket);
@@ -90,7 +71,6 @@ function* chatWatcer(action) {
   while (true) {
     try {
       const backAction = yield take(socketChannel);
-      console.log('bak action===>', backAction);
       yield put(backAction);
     } catch (err) {
       console.error('socket error:', err);

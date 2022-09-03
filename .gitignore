@@ -130,3 +130,4 @@ dist
 .pnp.*
 
 # custom gitignore
+sessions/

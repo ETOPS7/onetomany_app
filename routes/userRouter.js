@@ -52,7 +52,6 @@ router.route('/signup').post(async (req, res) => {
 });
 
 router.route('/check').post((req, res) => {
-  console.log('req.session--->', req.session);
   if (req.session?.user) {
     return res.json(req.session.user);
   }

@@ -130,7 +130,6 @@ export default function AllMyPresentations() {
   }, [presents]);
 
   React.useEffect(() => {
-    console.log('currentpresent 2 ======>', currentpresent);
     if (state && currentpresent) navigate(`/${currentpresent.id}/${currentpresent.pincode}`);
   }, [state]);
 

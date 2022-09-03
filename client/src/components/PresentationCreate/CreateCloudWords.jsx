@@ -28,7 +28,6 @@ export default function CreateCloudWords() {
   const port = process.env.REACT_APP_SERVER_PATH;
 
   const navigate = useNavigate();
-  console.log('currentpresent 1 ======>', currentpresent);
   const dispatch = useDispatch();
 
   const [input, setInput] = React.useState({ name: '', question: '', type });
@@ -49,7 +48,6 @@ export default function CreateCloudWords() {
   };
 
   React.useEffect(() => {
-    console.log('currentpresent 2 ======>', currentpresent);
     if (state && currentpresent) { navigate(`/${currentpresent.id}/${currentpresent.pincode}`); }
   }, [state]);
 

@@ -147,9 +147,7 @@ export default function AllTemplates() {
                 <CardActions>
                   <Button
                     onClick={() => {
-                      // console.log('dispatch(addType(tier.type))---->', tier.type);
                       dispatch(addType(tier.type));
-                      // console.log(`navigate(/${tier.type})---->`);
                       navigate(`/${tier.type}`);
                     }}
                     fullWidth

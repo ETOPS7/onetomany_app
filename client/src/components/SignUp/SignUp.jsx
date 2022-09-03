@@ -22,7 +22,6 @@ export default function SignUp() {
   const user = useSelector((state) => state.user);
   React.useEffect(() => {
     if (user.id) {
-      console.log('-------->');
       navigate('/presents');
     }
   }, [user]);
@@ -35,7 +34,6 @@ export default function SignUp() {
       email: data.get('email') || '',
       password: data.get('password') || '',
     };
-    console.log('sign up data.length---->', newUser);
     if (newUser.name && newUser.lastname && newUser.email && newUser.password) {
       dispatch(userSignUp(newUser));
     }

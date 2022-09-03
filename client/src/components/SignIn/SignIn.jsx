@@ -26,7 +26,6 @@ export default function SignIn() {
   const user = useSelector((state) => state.user);
   useEffect(() => {
     if (user.id) {
-      console.log('-------->');
       navigate('/presents');
     }
   }, [user]);
@@ -34,7 +33,6 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log('SignIn Form -->', data);
     dispatch(
       signInUser({
         email: data.get('email'),

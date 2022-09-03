@@ -14,16 +14,6 @@ export const settWords = (payload) => ({
   payload
 });
 
-// export const showWords = (value) => (dispatch) => {
-//   axios(`${port}/api/admin/${value.type}/${value.id}`)
-//     .then((res) => {
-//       dispatch({ type: GET_WORDS, payload: res.data });
-//     })
-//     .catch(
-//       (err) => console.log('err')
-//     );
-// };
-
 export const addWord = (payload) => (dispatch) => {
   axios.post(`${port}/api/admin/word`, payload)
     .then((res) => {

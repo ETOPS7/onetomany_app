@@ -23,14 +23,13 @@ app.use(
   cors({
     credentials: true,
     origin: true,
-  }),
+  })
 );
 
 const sessionParser = session({
   name: 'sid',
   store: new FileStore({}),
   secret: process.env.SECRET || 'thisisnotsecure',
-  // TODO true для не авторизованых
   saveUninitialized: true,
   resave: true,
   cookie: {
@@ -41,7 +40,6 @@ const sessionParser = session({
 
 app.use(sessionParser);
 app.use((req, res, next) => {
-  console.log(req.session.id);
   next();
 });
 
@@ -54,13 +52,7 @@ app.get('*', (req, res) => {
 });
 
 server.on('upgrade', (request, socket, head) => {
-  console.log('Parsing session from request...', app.locals.ws);
-
   sessionParser(request, {}, () => {
-    console.log('SESSION', request.session.id);
-
-    console.log('Session is parsed!');
-
     wss.handleUpgrade(request, socket, head, (ws) => {
       wss.emit('connection', ws, request, app.locals.ws);
     });

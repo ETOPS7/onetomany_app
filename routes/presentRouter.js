@@ -31,11 +31,9 @@ router.route('/presents').get(async (req, res) => {
     ],
   });
 
-  // console.log('presents all length', presents);
   if (presents.length) {
     presents = presents.map((el) => {
       const { type } = jsonHalper(jsonHalper(el.Cloud_template).Type_template);
-      // console.log('el.q>>>>>>>>', el.question);
       return {
         id: el.id,
         name: el.name,
@@ -46,7 +44,6 @@ router.route('/presents').get(async (req, res) => {
         type,
       };
     });
-    console.log('presents>>>>>>>', presents[0].question);
     return res.json(jsonHalper(presents));
   } else {
     return res.json(jsonHalper(presents));
@@ -75,16 +72,12 @@ router.route('/checkpincode').post(async (req, res) => {
       },
     ],
   });
-  // console.log("router.route('/checkpincode') -- present-->", present);
   if (present) {
     const { type } = jsonHalper(
       jsonHalper(present.Cloud_template).Type_template
     );
     const { question } = jsonHalper(present.Cloud_template);
 
-    // for (const [, wsClient] of req.app.locals.ws) {
-    // if (wsClient.room === present.id) {
-    // console.log('type=====>', type);
     res.json(
       jsonHalper({
         type,
@@ -93,18 +86,13 @@ router.route('/checkpincode').post(async (req, res) => {
         question,
       })
     );
-    // res.sendStatus(200);
-    // } else {
-    // res.sendStatus(400);
-    // }
-    // }
+
   } else {
     res.sendStatus(400);
   }
 });
 
 router.route('/word').post(async (req, res) => {
-  // console.log('size------------------------', req.app.locals.ws.size);
 
   const [curword, created] = await Result_word.findOrCreate({
     where: {
@@ -127,35 +115,16 @@ router.route('/word').post(async (req, res) => {
   });
 
   for (const [, wsClient] of req.app.locals.ws) {
-    // if (wsClient.room === req.body.present_id) {
     wsClient.ws.send(
       JSON.stringify({
         type: 'GET_WORDS',
         payload: allWords,
       })
     );
-    // }
   }
   res.sendStatus(200);
 });
 
-// // открытие конкретной презентации
-// router.route('/:template/:id').get(async (req, res) => {
-//   console.log('size------------------------', req.app.locals.ws.size);
-
-//   console.log("router.route('/:template/:id').get=====>", req.params.id);
-//   const present_id = req.params.id;
-//   const words = Result_word.findAll({ where: { present_id } });
-//   res.json(words);
-//   // //! id из нашего cloud template
-//   // const { id } = req.params;
-//   // const cloudtemplate = await Cloud_template.findOne({
-//   //   where: { id },
-//   // });
-//   // res.json(cloudtemplate);
-// });
-
-//! удаление презентаци на странице со списком всех презентаций
 router.route('/:id/:template').delete(async (req, res) => {
   try {
     await Presentation.destroy({ where: { id: req.params.id } });
@@ -166,25 +135,13 @@ router.route('/:id/:template').delete(async (req, res) => {
   }
 });
 
-// открытие конкретной презентации
 router.route('/:template/:id').get(async (req, res) => {
-  console.log('size------------------------', req.app.locals.ws.size);
-
-  console.log("router.route('/:template/:id').get=====>", req.params.id);
   const present_id = req.params.id;
   const words = Result_word.findAll({ where: { present_id } });
   res.json(words);
-  // //! id из нашего cloud template
-  // const { id } = req.params;
-  // const cloudtemplate = await Cloud_template.findOne({
-  //   where: { id },
-  // });
-  // res.json(cloudtemplate);
 });
 
-// создание презентации
 router.route('/:template').post(async (req, res) => {
-  console.log('size------------------------', req.app.locals.ws.size);
   const pincode = gpc(5);
   try {
     const present = await Presentation.create({
@@ -214,22 +171,15 @@ router.route('/:template').post(async (req, res) => {
     console.log(error);
     return res.sendStatus(409);
   }
-  //   const { template } = req.params;
 });
 
-
-
-//! удаление презентаци на странице со списком всех презентаций
-
 router.route('/word').post(async (req, res) => {
-  console.log('size------------------------', req.app.locals.ws.size);
   const currentword = await Result_word.findOne({
     where: {
       word: req.body.word,
     },
   });
   if (currentword) {
-    // Result_word.update({ count: word.count + 1 });
     Result_word.increment(
       { count: +1 },
       {

@@ -12,7 +12,6 @@ export const presentAdd = (input) => (dispatch) => {
   axios
     .post(`${port}/api/admin/${input.type}`, input)
     .then((res) => {
-      // console.log('presentAdd actions --->', res.data);
       dispatch({
         type: ADD_PRESENT,
         payload: res.data,
@@ -25,7 +24,6 @@ export const presentAddState = (input) => (dispatch) => {
   axios
     .post(`${port}/api/admin/${input.type}`, input)
     .then((res) => {
-      console.log('presentAdd actions --->', res.data);
       dispatch({
         type: ADD_PRESENT,
         payload: res.data,
@@ -41,18 +39,13 @@ export const checkPincode = (input, setError) => (dispatch) => {
   axios
     .post(`${port}/api/admin/checkpincode`, input)
     .then((res) => {
-      // console.log('checkPincode -- res.data --->', res.data);
       dispatch({
         type: ADD_PRESENT,
         payload: res.data,
       });
-      // if (res.data) {
       dispatch({
         type: CHECK_PINCODE,
-        // payload: true,
       });
-      // }
-      // navigate(`/${res.data.id}/${res.data.type}/${res.data.pincode}`);
     })
     .catch((err) => {
       setError(true);
@@ -69,6 +62,3 @@ export const onePresSlice = (value) => (dispatch) => {
     type: CHANGE_STATE,
   });
 };
-
-// export const s = '';
-// export const s = '';

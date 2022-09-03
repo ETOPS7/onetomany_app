@@ -12,7 +12,6 @@ import { socketInit } from './Redux/actions/wsActions';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import { userCheck } from './Redux/actions/userActions';
 import FromAnswerCloud from './components/FormAnswer/FromAnswerCloud';
-import ModalQRcode from './components/ModalQR/ModalQRcode';
 import './styles/index.css';
 import AuthUser from './components/RequireAuth/AuthUser';
 import AboutPage from './components/AboutPage/AboutPage';
@@ -20,7 +19,7 @@ import AboutPage from './components/AboutPage/AboutPage';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log('App.jsx -- user --->', user);
+
   useEffect(() => {
     if (user.id) {
       dispatch(socketInit());

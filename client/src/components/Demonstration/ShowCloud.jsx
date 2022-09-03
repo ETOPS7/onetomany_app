@@ -1,9 +1,6 @@
-/* eslint-disable max-len */
 import * as React from 'react';
 import {
   Button,
-  Card,
-  CardContent,
   Container,
   Typography,
 } from '@mui/material';
@@ -40,18 +37,12 @@ export default function ShowCloud() {
   const qrUrl = `${process.env.REACT_APP_SERVER_PATH}`;
   const port = process.env.REACT_APP_SERVER_PATH;
   const currentpresent = useSelector((state) => state.currentpresent);
-  console.log('currentpresent 3 ======>', currentpresent);
   const counter = useSelector((state) => state.counteruser) - 1;
 
   const words = useSelector((state) => state.words);
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch({ type: 'GET_WORDS', payload: currentpresent.payload.id });
     dispatch({ type: 'SET_ROOM', payload: currentpresent.id });
-
-    // СЛЕТАЮТ ДАННЫЕ ПО ПРЕЗЕ ПРИ ДОБАВЛЕНИИ СЛОВА,
-    // СЛОВА ДОБАВЛЯЮТСЯ ВСЕ ОК,
-    // НО ВОПРОС СО СТР ПРЕДСТАВЛЕНИЯ СЛЕТАЕТ!!!
   }, [words]);
   useEffect(() => {
     return () => {
@@ -65,13 +56,8 @@ export default function ShowCloud() {
       });
     };
   }, []);
-  console.log('words ======>', words);
-  const navigate = useNavigate();
   const handleClick = () => {
-    // dispatch()
     window.location = '/presents';
-    // window.open('/presents');
-    // navigate('/presents');
   };
 
   return (
@@ -106,8 +92,6 @@ export default function ShowCloud() {
                 borderColor: '#3bba92',
               },
             },
-            // border: '#3bba92',
-            // '&:hover': { backgroundColor: 'none', color: 'white' },
           }}
         >
           QR

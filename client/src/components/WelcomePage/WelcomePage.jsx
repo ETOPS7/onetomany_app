@@ -28,21 +28,15 @@ export default function WelcomePage() {
     } else if (!test) {
       setError(true);
     } else {
-      console.log('WelcomePage -- checkPincode() --- input[0] --->', input[0]);
       dispatch(checkPincode({ pincode: input[0] }, setError));
     }
   };
   const pinCheck = useSelector((state) => state.pincodeCheck);
   const crprt = useSelector((state) => state.currentpresent);
-  console.log('pincodeCheck 4.1 ======>', pinCheck);
   useEffect(() => {
-    // "/:id/:template/:pincode" переход на форму с ответом
-    console.log('pincodeCheck 4.2 ======>', pinCheck);
-    console.log('currentpresent 4 ======>', crprt);
     if (pinCheck) {
       navigate(`/${crprt.id}/${crprt.type}/${crprt.pincode}`);
     }
-    // else setPinCheckErr(true);
   }, [pinCheck]);
 
   useEffect(() => {

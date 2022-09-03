@@ -1,19 +1,12 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-// import useState from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import { useNavigate } from 'react-router-dom';
@@ -43,32 +36,13 @@ export default function FromAnswerCloud() {
     return false;
   }
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   if (!checkWord(input)) {
-  //     setError(true);
-  //     console.log('error');
-  //   } else {
-  //     dispatchEvent(
-  //       addWord({
-  //         word: data.get('word'),
-  //         present_id: currentpresent.payload.id
-  //       })
-  //     );
-  //     setInput('');
-  //   }
-  // };
-
   const changeHandler = (e) => {
     setInput((prev) => [e.target.value]);
-    console.log(input);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log('data---->', data.set);
 
     if (checkWord(input)) {
       dispatch(
@@ -117,6 +91,7 @@ export default function FromAnswerCloud() {
     dispatch(socketInit());
     if (!crprt.id) navigate('/');
   }, []);
+
   React.useEffect(() => {
     if (ws) dispatch({ type: 'SET_ROOM', payload: crprt.id });
     return () => {
@@ -201,18 +176,12 @@ export default function FromAnswerCloud() {
                 mt: 10,
                 height: '50px',
                 width: '93px',
-                // '&:hover': { backgroundColor: 'lavender' },
               }}
             >
               Выход
               <ExitToAppIcon />
             </Button>
           </Box>
-          {/* {status && (
-            <Typography component="h1" variant="h5">
-            Ваш ответ принят!
-            </Typography>
-          )} */}
         </Box>
       </Container>
     </ThemeProvider>

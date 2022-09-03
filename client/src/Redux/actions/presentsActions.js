@@ -12,13 +12,9 @@ export const deletePresent = (payload) => (dispatch) => {
 };
 
 export const allPresent = () => (dispatch) => {
-  console.log('allPresent');
   axios.get(`${port}/api/admin/presents`)
     .then((res) => {
-      console.log('allPresent -- PRESENTS_FOR_USER--->', res.data);
       dispatch({ type: PRESENTS_FOR_USER, payload: res.data });
     })
     .catch((err) => console.log('err'));
 };
-
-// export default allPresent;
